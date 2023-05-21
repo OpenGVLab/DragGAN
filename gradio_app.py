@@ -1,7 +1,10 @@
+import os
 import gradio as gr
 import torch
 import numpy as np
+import imageio
 from PIL import Image
+import uuid
 
 from drag_gan import drag_gan, stylegan2
 
@@ -108,7 +111,8 @@ def on_drag(model, points, max_iters, state, size, mask):
         state['sample'] = sample2
         points['handle'] = [p.cpu().numpy().astype('int') for p in handle_points]
         add_points_to_image(image, points, size=SIZE_TO_CLICK_SIZE[size])
-        
+
+        state['history'].append(image)
         step += 1
         yield image, state, step
 
@@ -130,10 +134,6 @@ def on_undo(points, image, state, size):
     return points, image
 
 
-def on_save():
-    pass
-
-
 def on_change_model(selected, model):
     size = CKPT_SIZE[selected]
     model = ModelWrapper(size=size, ckpt=selected)
@@ -146,7 +146,8 @@ def on_change_model(selected, model):
         'latent': latent,
         'noise': noise,
         'F': F,
-        'sample': sample
+        'sample': sample,
+        'history': []
     }
     return model, state, to_image(sample), size
 
@@ -161,7 +162,8 @@ def on_new_image(model):
         'latent': latent,
         'noise': noise,
         'F': F,
-        'sample': sample
+        'sample': sample,
+        'history': []
     }
     points = {'target': [], 'handle': []}
     return to_image(sample), to_image(sample), state, points
@@ -169,6 +171,19 @@ def on_new_image(model):
 
 def on_max_iter_change(max_iters):
     return gr.update(maximum=max_iters)
+
+
+def on_save_files(image, state):
+    os.makedirs('tmp', exist_ok=True)
+    image_name = f'tmp/image_{uuid.uuid4()}.png'
+    video_name = f'tmp/video_{uuid.uuid4()}.mp4'
+    imageio.imsave(image_name, image)
+    imageio.mimsave(video_name, state['history'])
+    return [image_name, video_name]
+
+
+def on_show_save():
+    return gr.update(visible=True)
 
 
 def main():
@@ -201,7 +216,8 @@ def main():
             'latent': latent,
             'noise': noise,
             'F': F,
-            'sample': sample
+            'sample': sample,
+            'history': []
         })
         points = gr.State({'target': [], 'handle': []})
         size = gr.State(1024)
@@ -227,13 +243,8 @@ def main():
                     with gr.Row():
                         btn = gr.Button('Drag it', variant='primary')
 
-                # with gr.Accordion('Save'):
-                #     with gr.Row():
-                #         filename = gr.Textbox("draggan")
-                #     with gr.Row():
-                #         save_video_btn = gr.Button('Save Video')
-                #         save_cfg_btn = gr.Button('Save Config')
-                #         save_img_btn = gr.Button('Save Image', variant='primary')
+                with gr.Accordion('Save', visible=False) as save_panel:
+                    files = gr.Files(value=[])
 
                 progress = gr.Slider(value=0, maximum=20, label='Progress', interactive=False)
 
@@ -245,7 +256,10 @@ def main():
                         image = gr.Image(to_image(sample)).style(height=768, width=768)
 
         image.select(on_click, [image, target_point, points, size], [image, text, target_point])
-        btn.click(on_drag, inputs=[model, points, max_iters, state, size, mask], outputs=[image, state, progress])
+        btn.click(on_drag, inputs=[model, points, max_iters, state, size, mask], outputs=[image, state, progress]).then(
+            on_show_save, outputs=save_panel).then(
+            on_save_files, inputs=[image, state], outputs=[files]
+        )
         reset_btn.click(on_reset, inputs=[points, image, state], outputs=[points, image])
         undo_btn.click(on_undo, inputs=[points, image, state, size], outputs=[points, image])
         model_dropdown.change(on_change_model, inputs=[model_dropdown, model], outputs=[model, state, image, size])
@@ -255,5 +269,6 @@ def main():
 
 
 if __name__ == '__main__':
+    import fire
     demo = main()
-    demo = demo.queue(concurrency_count=1, max_size=20).launch(share=True)
+    fire.Fire(demo.queue(concurrency_count=1, max_size=20).launch)

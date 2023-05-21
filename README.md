@@ -8,17 +8,15 @@ Wild implementation of [Drag Your GAN: Interactive Point-based Manipulation on t
 
 ![demo](assets/demo.png)
 
-**Updates**
+**Features**
 
 - [ ] Tweak performance.
 - [ ] Custom Image with GAN inversion.
-- [x] Colab Demo.
-- [x] Support movable region. 
-- [x] Add more options.
-- [x] Mutliple handle points.
+- [x] Download generated image and generation trajectory.
+- [x] Controling generation process with GUI.
 - [x] Automatically download stylegan2 checkpoint.
-- [x] Gradio Demo.
-- [x] Workable version.
+- [x] Support movable region, mutliple handle points. 
+- [x] Gradio and Colab Demo.
 
 
 **Demo video**
