@@ -4,7 +4,7 @@
 <!--  [`Online Demo`](https://6a05f355a8f139550c.gradio.live/)  -->
 <!-- > Note that the link of online demo will be updated regularly. -->
 
-Wild implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
+Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
 
 ![demo](assets/paper.png)
 
