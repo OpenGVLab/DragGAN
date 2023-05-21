@@ -1,6 +1,6 @@
 # DragGAN
 
-:boom: [`Online Demo`](https://df42dcb8c7f4d46917.gradio.live/)
+:boom: [`Online Demo`](https://443086e609da80365b.gradio.live/)
 
 Wild implementation of DragGAN 
 
