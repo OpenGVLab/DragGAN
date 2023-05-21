@@ -1,6 +1,6 @@
 # DragGAN
 
-:boom: [`Online Demo`](https://6a05f355a8f139550c.gradio.live/)
+:boom: [`Online Demo`](https://6a05f355a8f139550c.gradio.live/)  | [`Colab Demo`](https://colab.research.google.com/github/Zeqiang-Lai/DragGAN/blob/master/colab.ipynb)
 
 > Note that the link of online demo will be updated regularly.
 
@@ -10,6 +10,7 @@ Wild implementation of [Drag Your GAN: Interactive Point-based Manipulation on t
 
 **Updates**
 
+- [x] Colab Demo.
 - [x] Support movable region. 
 - [x] Add more options.
 - [x] Mutliple handle points.
