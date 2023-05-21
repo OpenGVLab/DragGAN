@@ -235,4 +235,4 @@ def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points
             # sample2[0, :, 210, 134] = sample2[0, :, 210, 134] * 0
             # utils.save_image(sample2, "test2.png", normalize=True, range=(-1, 1))
 
-        yield sample2, latent, F2
+        yield sample2, latent, F2, handle_points

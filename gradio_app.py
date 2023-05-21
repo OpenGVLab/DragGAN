@@ -98,16 +98,17 @@ def on_drag(model, points, max_iters, state, size, mask):
     mask = mask.unsqueeze(0).unsqueeze(0)
 
     step = 0
-    for sample2, latent, F in drag_gan(model.g_ema, latent, noise, F,
-                                       handle_points, target_points, mask,
-                                       max_iters=max_iters):
+    for sample2, latent, F, handle_points in drag_gan(model.g_ema, latent, noise, F,
+                                                      handle_points, target_points, mask,
+                                                      max_iters=max_iters):
         image = to_image(sample2)
 
         state['F'] = F
         state['latent'] = latent
         state['sample'] = sample2
-        
+        points['handle'] = [p.cpu().numpy().astype('int') for p in handle_points]
         add_points_to_image(image, points, size=SIZE_TO_CLICK_SIZE[size])
+        
         step += 1
         yield image, state, step
 
