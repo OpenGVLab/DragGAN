@@ -10,6 +10,8 @@ Wild implementation of [Drag Your GAN: Interactive Point-based Manipulation on t
 
 **Updates**
 
+- [ ] Tweak performance.
+- [ ] Custom Image with GAN inversion.
 - [x] Colab Demo.
 - [x] Support movable region. 
 - [x] Add more options.
