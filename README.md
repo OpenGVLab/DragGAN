@@ -1,8 +1,8 @@
 # DragGAN
 
-:boom: [`Online Demo`](https://6a05f355a8f139550c.gradio.live/)  | [`Colab Demo`](https://colab.research.google.com/github/Zeqiang-Lai/DragGAN/blob/master/colab.ipynb)
-
-> Note that the link of online demo will be updated regularly.
+:boom:  [`Colab Demo`](https://colab.research.google.com/github/Zeqiang-Lai/DragGAN/blob/master/colab.ipynb)
+<!--  [`Online Demo`](https://6a05f355a8f139550c.gradio.live/)  -->
+<!-- > Note that the link of online demo will be updated regularly. -->
 
 Wild implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
 
@@ -10,6 +10,8 @@ Wild implementation of [Drag Your GAN: Interactive Point-based Manipulation on t
 
 **Updates**
 
+- [ ] Tweak performance.
+- [ ] Custom Image with GAN inversion.
 - [x] Colab Demo.
 - [x] Support movable region. 
 - [x] Add more options.
