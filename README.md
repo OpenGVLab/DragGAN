@@ -2,9 +2,9 @@
 
 :boom: [`Online Demo`](https://2db7de2bdb2b26469d.gradio.live/)
 
-Wild implementation of DragGAN 
+> Note that the link of online demo will be updated regularly.
 
-[Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
+Wild implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
 
 ![demo](assets/demo.png)
 
