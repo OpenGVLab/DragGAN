@@ -4,7 +4,7 @@ Wild implementation of DragGAN
 
 [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
 
-
+![demo](assets/demo.png)
 
 https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/cea9d180-9c47-4e38-bc0e-5fae7793c933
 
