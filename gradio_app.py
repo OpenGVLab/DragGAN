@@ -211,9 +211,10 @@ def main():
             2. Setup a least one pair of handle point and target point.
             3. Click "Drag it". 
             
-            Handle points (Blue): the point you want to drag.
+            ## Note
             
-            Target points (Red): the destination you want to drag towards to.
+            - Handle points (Blue): the point you want to drag.
+            - Target points (Red): the destination you want to drag towards to.
             """,
         )
         state = gr.State({
