@@ -11,7 +11,8 @@ Wild implementation of DragGAN
 **Features**
 
 - [ ] Support movable region. 
-- [ ] Mutliple handle points.
+- [x] Add more options.
+- [x] Mutliple handle points.
 - [x] Automatically download stylegan2 checkpoint.
 - [x] Gradio Demo.
 - [x] Workable version.

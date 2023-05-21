@@ -171,7 +171,7 @@ def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points
         return points
 
     F0 = F.detach().clone()
-    # latent = latent.detach().clone().requires_grad_(True)
+
     latent_trainable = latent[:, :6, :].detach().clone().requires_grad_(True)
     latent_untrainable = latent[:, 6:, :].detach().clone().requires_grad_(False)
     optimizer = torch.optim.Adam([latent_trainable], lr=2e-3)
@@ -198,10 +198,6 @@ def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points
 
             loss.backward()
             optimizer.step()
-
-            print(latent_trainable[0, 0, :10])
-            # if s % 10 ==0:
-            #     utils.save_image(sample2, "test2.png", normalize=True, range=(-1, 1))
 
         # point tracking
         with torch.no_grad():
@@ -237,6 +233,6 @@ def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points
             # sample2[0, :, t[0] - 5:t[0] + 5, t[1] - 5:t[1] + 5] = sample2[0, :, t[0] - 5:t[0] + 5, t[1] - 5:t[1] + 5] * 255
 
             # sample2[0, :, 210, 134] = sample2[0, :, 210, 134] * 0
-            utils.save_image(sample2, "test2.png", normalize=True, range=(-1, 1))
+            # utils.save_image(sample2, "test2.png", normalize=True, range=(-1, 1))
 
         yield sample2, latent, F2
