@@ -51,7 +51,7 @@ Lanuch the Gradio demo
 python gradio_app.py
 ```
 
-> If you have any issuse for downloading the checkpoint, you could mannuly download it from [here](https://huggingface.co/aaronb/StyleGAN2/tree/main) and put it into the folder `checkpoints`.
+> If you have any issuse for downloading the checkpoint, you could manually download it from [here](https://huggingface.co/aaronb/StyleGAN2/tree/main) and put it into the folder `checkpoints`.
 
 ## Acknowledgement
 
