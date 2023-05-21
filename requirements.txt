@@ -1,3 +1,4 @@
 gradio
 tqdm
 torch
+numpy

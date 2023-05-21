@@ -8,9 +8,9 @@ Wild implementation of DragGAN
 
 ![demo](assets/demo.png)
 
-**Features**
+**Updates**
 
-- [ ] Support movable region. 
+- [x] Support movable region. 
 - [x] Add more options.
 - [x] Mutliple handle points.
 - [x] Automatically download stylegan2 checkpoint.

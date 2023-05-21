@@ -194,7 +194,7 @@ def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points
                     f2 = bilinear_interpolate_torch(F2, qi[0] + di[0], qi[1] + di[1])
                     loss += FF.l1_loss(f2, f1)
 
-            # loss += ((F-F0) * (1-mask)).abs().mean() * lam
+            loss += ((F2 - F0) * (1 - mask)).abs().mean() * lam
 
             loss.backward()
             optimizer.step()

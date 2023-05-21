@@ -1,5 +1,7 @@
 import gradio as gr
 import torch
+import numpy as np
+from PIL import Image
 
 from drag_gan import drag_gan, stylegan2
 
@@ -17,6 +19,29 @@ CKPT_SIZE = {
     'stylegan2-church-config-f.pt': 256,
     'stylegan2-horse-config-f.pt': 256,
 }
+
+
+class ImageMask(gr.components.Image):
+    """
+    Sets: source="canvas", tool="sketch"
+    """
+
+    is_template = True
+
+    def __init__(self, **kwargs):
+        super().__init__(source="upload", tool="sketch", interactive=True, **kwargs)
+
+    def preprocess(self, x):
+        if x is None:
+            return x
+        if self.tool == "sketch" and self.source in ["upload", "webcam"] and type(x) != dict:
+            decode_image = gr.processing_utils.decode_base64_to_image(x)
+            width, height = decode_image.size
+            mask = np.zeros((height, width, 4), dtype=np.uint8)
+            mask[..., -1] = 255
+            mask = self.postprocess(mask)
+            x = {'image': x, 'mask': mask}
+        return super().preprocess(x)
 
 
 class ModelWrapper:
@@ -53,7 +78,7 @@ def on_click(image, target_point, points, size, evt: gr.SelectData):
     return image, str(evt.index), not target_point
 
 
-def on_drag(model, points, max_iters, state, size):
+def on_drag(model, points, max_iters, state, size, mask):
     if len(points['handle']) == 0:
         raise gr.Error('You must select at least one handle point and target point.')
     if len(points['handle']) != len(points['target']):
@@ -65,8 +90,14 @@ def on_drag(model, points, max_iters, state, size):
 
     handle_points = [torch.tensor(p).float() for p in points['handle']]
     target_points = [torch.tensor(p).float() for p in points['target']]
-    mask = torch.zeros((1, 1, 1024, 1024)).to(device)
-    mask[..., 720:820, 390:600] = 1
+
+    mask = Image.fromarray(mask['mask']).convert('L')
+    mask = np.array(mask) == 255
+
+    mask = torch.from_numpy(mask).float().to(device)
+    mask = mask.unsqueeze(0).unsqueeze(0)
+
+    step = 0
     for sample2, latent, F in drag_gan(model.g_ema, latent, noise, F,
                                        handle_points, target_points, mask,
                                        max_iters=max_iters):
@@ -75,9 +106,10 @@ def on_drag(model, points, max_iters, state, size):
         state['F'] = F
         state['latent'] = latent
         state['sample'] = sample2
-        # yield points, image, state, gr.Tabs.update(selected='output')
+        
         add_points_to_image(image, points, size=SIZE_TO_CLICK_SIZE[size])
-        yield image, state
+        step += 1
+        yield image, state, step
 
 
 def on_reset(points, image, state):
@@ -130,7 +162,12 @@ def on_new_image(model):
         'F': F,
         'sample': sample
     }
-    return to_image(sample), state
+    points = {'target': [], 'handle': []}
+    return to_image(sample), to_image(sample), state, points
+
+
+def on_max_iter_change(max_iters):
+    return gr.update(maximum=max_iters)
 
 
 def main():
@@ -147,10 +184,16 @@ def main():
             """
             # DragGAN (Unofficial)
             
-            Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://github.com/XingangPan/DragGAN) 
+            Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
             
-            [https://github.com/Zeqiang-Lai/DragGAN](https://github.com/Zeqiang-Lai/DragGAN)
-      
+            [Github](https://github.com/Zeqiang-Lai/DragGAN) | [Official Implementation](https://github.com/XingangPan/DragGAN) (Not released yet)
+
+            ## Tutorial
+            
+            1. (Optional) Draw a mask indicate the movable region.
+            2. Setup a least one pair of handle point and target point.
+            3. Click "Drag it". 
+            
             """,
         )
         state = gr.State({
@@ -181,28 +224,32 @@ def main():
                         with gr.Column(min_width=100):
                             undo_btn = gr.Button('Undo Last')
                     with gr.Row():
-                        # copy_btn = gr.Button('Start from Output')
                         btn = gr.Button('Drag it', variant='primary')
 
-                with gr.Accordion('Save'):
-                    with gr.Row():
-                        filename = gr.Textbox("draggan")
-                    with gr.Row():
-                        save_video_btn = gr.Button('Save Video')
-                        save_cfg_btn = gr.Button('Save Config')
-                        save_img_btn = gr.Button('Save Image', variant='primary')
-            with gr.Column(scale=0.8):
-                # with gr.Tabs() as tabs:
-                with gr.Tab('Input', id='input'):
-                    image = gr.Image(to_image(sample)).style(height=768, width=768)
-                    # with gr.Tab('Ouput', id='output'):
-                    #     output_image = gr.Image(to_image(sample)).style(height=768, width=768)
+                # with gr.Accordion('Save'):
+                #     with gr.Row():
+                #         filename = gr.Textbox("draggan")
+                #     with gr.Row():
+                #         save_video_btn = gr.Button('Save Video')
+                #         save_cfg_btn = gr.Button('Save Config')
+                #         save_img_btn = gr.Button('Save Image', variant='primary')
+
+                progress = gr.Slider(value=0, maximum=20, label='Progress', interactive=False)
+
+            with gr.Column():
+                with gr.Tabs():
+                    with gr.Tab('Draw a Mask', id='mask'):
+                        mask = gr.ImageMask(value=to_image(sample), label='Mask').style(height=768, width=768)
+                    with gr.Tab('Setup Handle Points', id='input'):
+                        image = gr.Image(to_image(sample)).style(height=768, width=768)
+
         image.select(on_click, [image, target_point, points, size], [image, text, target_point])
-        btn.click(on_drag, inputs=[model, points, max_iters, state, size], outputs=[image, state])
+        btn.click(on_drag, inputs=[model, points, max_iters, state, size, mask], outputs=[image, state, progress])
         reset_btn.click(on_reset, inputs=[points, image, state], outputs=[points, image])
         undo_btn.click(on_undo, inputs=[points, image, state, size], outputs=[points, image])
         model_dropdown.change(on_change_model, inputs=[model_dropdown, model], outputs=[model, state, image, size])
-        new_btn.click(on_new_image, inputs=[model], outputs=[image, state])
+        new_btn.click(on_new_image, inputs=[model], outputs=[image, mask, state, points])
+        max_iters.change(on_max_iter_change, inputs=max_iters, outputs=progress)
     return demo
 
 
