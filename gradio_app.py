@@ -4,7 +4,6 @@ from drag_gan import stylegan2, drag_gan
 from PIL import Image
 
 device = 'cuda'
-torch.cuda.manual_seed(25)
 g_ema = stylegan2().to(device)
 
 
@@ -50,6 +49,7 @@ def on_drag(points, max_iters, state):
 
 
 def main():
+    torch.cuda.manual_seed(25)  
     sample_z = torch.randn([1, 512], device=device)
     latent, noise = g_ema.prepare([sample_z])
     sample, F = g_ema.generate(latent, noise)
@@ -60,7 +60,7 @@ def main():
             'noise': noise,
             'F': F,
         })
-        max_iters = gr.Slider(1, 20, 5, label='Max Iterations')
+        max_iters = gr.Slider(1, 100, 5, label='Max Iterations')
         image = gr.Image(to_image(sample)).style(height=512, width=512)
         text = gr.Textbox()
         btn = gr.Button('Drag it')

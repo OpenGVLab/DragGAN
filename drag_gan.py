@@ -1,13 +1,44 @@
+import copy
+import os
 import random
+import urllib.request
 
 import numpy as np
 import torch
-import torch.nn as nn
 import torch.nn.functional as FF
-from torchvision import utils
 import torch.optim
+from torchvision import utils
+from tqdm import tqdm
+
 from stylegan2.model import Generator
-import copy
+
+
+class DownloadProgressBar(tqdm):
+    def update_to(self, b=1, bsize=1, tsize=None):
+        if tsize is not None:
+            self.total = tsize
+        self.update(b * bsize - self.n)
+
+
+def get_path(base_path):
+    BASE_DIR = os.path.join('checkpoints')
+
+    save_path = os.path.join(BASE_DIR, base_path)
+    if not os.path.exists(save_path):
+        url = f"https://huggingface.co/aaronb/StyleGAN2/resolve/main/{base_path}"
+        print(f'{base_path} not found')
+        print('Try to download from huggingface: ', url)
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        download_url(url, save_path)
+        print('Downloaded to ', save_path)
+    return save_path
+
+
+def download_url(url, output_path):
+    with DownloadProgressBar(unit='B', unit_scale=True,
+                             miniters=1, desc=url.split('/')[-1]) as t:
+        urllib.request.urlretrieve(url, filename=output_path, reporthook=t.update_to)
+
 
 class CustomGenerator(Generator):
     def prepare(
@@ -93,7 +124,7 @@ def stylegan2(
     ckpt='stylegan2-ffhq-config-f.pt'
 ):
     g_ema = CustomGenerator(size, latent, n_mlp, channel_multiplier=channel_multiplier)
-    checkpoint = torch.load(ckpt)
+    checkpoint = torch.load(get_path(ckpt))
     g_ema.load_state_dict(checkpoint["g_ema"], strict=False)
     g_ema.requires_grad_(False)
     g_ema.eval()
@@ -146,7 +177,7 @@ def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points
     latent_untrainable = latent[:, 6:, :].detach().clone().requires_grad_(False)
     optimizer = torch.optim.Adam([latent_trainable], lr=2e-3)
     for iter in range(max_iters):
-        for s in range(5):
+        for s in range(1):
             optimizer.zero_grad()
             latent = torch.cat([latent_trainable, latent_untrainable], dim=1)
             sample2, F2 = g_ema.generate(latent, noise)
@@ -169,7 +200,7 @@ def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points
             loss.backward()
             optimizer.step()
 
-            print(latent_trainable[0,0,:10])
+            print(latent_trainable[0, 0, :10])
             # if s % 10 ==0:
             #     utils.save_image(sample2, "test2.png", normalize=True, range=(-1, 1))
 
@@ -188,7 +219,8 @@ def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points
                     try:
                         f2 = bilinear_interpolate_torch(F2, qi[0], qi[1])
                     except:
-                        import ipdb; ipdb.set_trace()
+                        import ipdb
+                        ipdb.set_trace()
                     v = torch.norm(f2 - f0, p=1)
                     if v < minv:
                         minv = v
@@ -207,5 +239,5 @@ def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points
 
             # sample2[0, :, 210, 134] = sample2[0, :, 210, 134] * 0
             utils.save_image(sample2, "test2.png", normalize=True, range=(-1, 1))
-            
+
         yield sample2, latent, F2
