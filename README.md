@@ -24,6 +24,11 @@ https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/cea01f21-3021-40fc-8221-5
 
 ## Usage
 
+Ensure you have [PyTorch](https://pytorch.org/get-started/locally/), [Gradio](https://gradio.app/quickstart/), and [tqdm](https://github.com/tqdm/tqdm) installed.
+
+```bash
+pip install -r requirements.txt
+```
 
 Lanuch the Gradio demo
 
