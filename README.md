@@ -1,6 +1,6 @@
 # DragGAN
 
-:boom: [`Online Demo`](https://77e079df52c4b09086.gradio.live/)
+:boom: [`Online Demo`](https://6a05f355a8f139550c.gradio.live/)
 
 > Note that the link of online demo will be updated regularly.
 
