@@ -228,7 +228,7 @@ def main():
                 with gr.Accordion("Model"):
                     model_dropdown = gr.Dropdown(choices=list(CKPT_SIZE.keys()), value='stylegan2-ffhq-config-f.pt',
                                                  label='StyleGAN2 model')
-                    max_iters = gr.Slider(1, 100, 20, step=1, label='Max Iterations')
+                    max_iters = gr.Slider(1, 500, 20, step=1, label='Max Iterations')
                     new_btn = gr.Button('New Image')
                 with gr.Accordion('Drag'):
                     with gr.Row():
