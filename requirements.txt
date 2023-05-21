@@ -1,6 +1,7 @@
 gradio
 tqdm
 torch
+torchvision
 numpy
 ninja
 fire
