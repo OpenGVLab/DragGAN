@@ -12,6 +12,7 @@ Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulatio
 
 - [ ] Tweak performance.
 - [ ] Custom Image with GAN inversion.
+- [ ] Automatically determining the number of iterations.
 - [x] Download generated image and generation trajectory.
 - [x] Controling generation process with GUI.
 - [x] Automatically download stylegan2 checkpoint.
