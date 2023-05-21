@@ -22,10 +22,10 @@ Wild implementation of [Drag Your GAN: Interactive Point-based Manipulation on t
 ## Demo
 
 <p float="left">
-  <img src="assets/mouse.gif" width="100" />
-  <img src="assets/nose.gif" width="100" /> 
-  <img src="assets/cat.gif" width="100" />
-  <img src="assets/horse.gif" width="100" />
+  <img src="assets/mouse.gif" width="220" />
+  <img src="assets/nose.gif" width="220" /> 
+  <img src="assets/cat.gif" width="220" />
+  <img src="assets/horse.gif" width="220" />
 </p>
 
 https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/f1516101-5667-4f73-9330-57fc45754283
