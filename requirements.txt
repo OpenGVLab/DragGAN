@@ -1,0 +1,3 @@
+gradio
+tqdm
+torch

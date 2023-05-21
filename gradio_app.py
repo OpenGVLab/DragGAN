@@ -1,7 +1,6 @@
 import gradio as gr
 import torch
 from drag_gan import stylegan2, drag_gan
-from PIL import Image
 
 device = 'cuda'
 g_ema = stylegan2().to(device)

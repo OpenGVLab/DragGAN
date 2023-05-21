@@ -3,7 +3,6 @@ import os
 import random
 import urllib.request
 
-import numpy as np
 import torch
 import torch.nn.functional as FF
 import torch.optim
