@@ -10,7 +10,7 @@ Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulatio
 
 ![demo](assets/paper.png)
 
-**Features**
+:star2: **Features**
 
 - [ ] Tweak performance.
 - [ ] Custom Image with GAN inversion.
