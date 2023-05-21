@@ -19,7 +19,10 @@ Wild implementation of DragGAN
 
 **Demo video**
 
-https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/cea01f21-3021-40fc-8221-58db0bd7b057
+
+
+https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/f1516101-5667-4f73-9330-57fc45754283
+
 
 
 
