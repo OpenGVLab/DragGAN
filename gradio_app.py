@@ -166,7 +166,8 @@ def on_new_image(model):
         'history': []
     }
     points = {'target': [], 'handle': []}
-    return to_image(sample), to_image(sample), state, points
+    target_point = False
+    return to_image(sample), to_image(sample), state, points, target_point
 
 
 def on_max_iter_change(max_iters):
@@ -263,7 +264,7 @@ def main():
         reset_btn.click(on_reset, inputs=[points, image, state], outputs=[points, image])
         undo_btn.click(on_undo, inputs=[points, image, state, size], outputs=[points, image])
         model_dropdown.change(on_change_model, inputs=[model_dropdown, model], outputs=[model, state, image, size])
-        new_btn.click(on_new_image, inputs=[model], outputs=[image, mask, state, points])
+        new_btn.click(on_new_image, inputs=[model], outputs=[image, mask, state, points, target_point])
         max_iters.change(on_max_iter_change, inputs=max_iters, outputs=progress)
     return demo
 
