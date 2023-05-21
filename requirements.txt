@@ -2,3 +2,4 @@ gradio
 tqdm
 torch
 numpy
+ninja
