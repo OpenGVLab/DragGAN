@@ -13,8 +13,8 @@ Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulatio
 :star2: **Features**
 
 - [ ] Tweak performance.
-- [ ] Custom Image with GAN inversion.
 - [ ] Automatically determining the number of iterations.
+- [x] Custom Image with GAN inversion.
 - [x] Download generated image and generation trajectory.
 - [x] Controling generation process with GUI.
 - [x] Automatically download stylegan2 checkpoint.
@@ -56,6 +56,8 @@ python gradio_app.py
 ## Acknowledgement
 
 [Official DragGAN](https://github.com/XingangPan/DragGAN) &ensp; [StyleGAN2](https://github.com/NVlabs/stylegan2)  &ensp; [StyleGAN2-pytorch](https://github.com/rosinality/stylegan2-pytorch)
+
+<!-- https://github.com/omertov/encoder4editing -->
 
 ## Citation
 

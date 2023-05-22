@@ -7,3 +7,4 @@ ninja
 fire
 imageio
 imageio-ffmpeg
+scikit-image

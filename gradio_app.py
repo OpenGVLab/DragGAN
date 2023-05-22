@@ -7,6 +7,7 @@ from PIL import Image
 import uuid
 
 from drag_gan import drag_gan, stylegan2
+from stylegan2.inversion import inverse_image
 
 device = 'cuda'
 
@@ -22,6 +23,22 @@ CKPT_SIZE = {
     'stylegan2-church-config-f.pt': 256,
     'stylegan2-horse-config-f.pt': 256,
 }
+
+
+class grImage(gr.components.Image):
+    is_template = True
+
+    def preprocess(self, x):
+        if x is None:
+            return x
+        if self.tool == "sketch" and self.source in ["upload", "webcam"]:
+            decode_image = gr.processing_utils.decode_base64_to_image(x)
+            width, height = decode_image.size
+            mask = np.zeros((height, width, 4), dtype=np.uint8)
+            mask[..., -1] = 255
+            mask = self.postprocess(mask)
+            x = {'image': x, 'mask': mask}
+        return super().preprocess(x)
 
 
 class ImageMask(gr.components.Image):
@@ -102,7 +119,7 @@ def on_drag(model, points, max_iters, state, size, mask):
         mask = mask.unsqueeze(0).unsqueeze(0)
     else:
         mask = None
-        
+
     step = 0
     for sample2, latent, F, handle_points in drag_gan(model.g_ema, latent, noise, F,
                                                       handle_points, target_points, mask,
@@ -190,6 +207,24 @@ def on_show_save():
     return gr.update(visible=True)
 
 
+def on_image_change(model, image_size, image):
+    image = Image.fromarray(image)
+    result = inverse_image(
+        model.g_ema,
+        image,
+        image_size=image_size
+    )
+    result['history'] = []
+    image = to_image(result['sample'])
+    points = {'target': [], 'handle': []}
+    target_point = False
+    return image, image, result, points, target_point
+
+
+def on_mask_change(mask):
+    return mask['image']
+
+
 def main():
     torch.cuda.manual_seed(25)
 
@@ -214,10 +249,22 @@ def main():
             2. Setup a least one pair of handle point and target point.
             3. Click "Drag it". 
             
-            ## Note
+            ## Hints
             
             - Handle points (Blue): the point you want to drag.
             - Target points (Red): the destination you want to drag towards to.
+            
+            ## Primary Support of Custom Image.
+            
+            - We now support dragging user uploaded image by GAN inversion.
+            - **Please upload your image at `Setup Handle Points` pannel.** Upload it from `Draw a Mask` would cause errors for now.
+            - Due to the limitation of GAN inversion, 
+                - You might wait roughly 1 minute to see the GAN version of the uploaded image.
+                - The shown image might be slightly difference from the uploaded one.
+                - It could also fail to invert the uploaded image and generate very poor results.
+                - Idealy, you should choose the closest model of the uploaded image. For example, choose `stylegan2-ffhq-config-f.pt` for human face. `stylegan2-cat-config-f.pt` for cat.
+                
+            > Please fire an issue if you have encounted any problem. Also don't forgot to give a star to the [Official Repo](https://github.com/XingangPan/DragGAN), [this project](https://github.com/Zeqiang-Lai/DragGAN) could not exist without it.
             """,
         )
         state = gr.State({
@@ -259,11 +306,13 @@ def main():
             with gr.Column():
                 with gr.Tabs():
                     with gr.Tab('Draw a Mask', id='mask'):
-                        mask = gr.ImageMask(value=to_image(sample), label='Mask').style(height=768, width=768)
+                        mask = ImageMask(value=to_image(sample), label='Mask').style(height=768, width=768)
                     with gr.Tab('Setup Handle Points', id='input'):
-                        image = gr.Image(to_image(sample)).style(height=768, width=768)
+                        image = grImage(to_image(sample)).style(height=768, width=768)
 
         image.select(on_click, [image, target_point, points, size], [image, text, target_point])
+        image.upload(on_image_change, [model, size, image], [image, mask, state, points, target_point])
+        mask.upload(on_mask_change, [mask], [image])
         btn.click(on_drag, inputs=[model, points, max_iters, state, size, mask], outputs=[image, state, progress]).then(
             on_show_save, outputs=save_panel).then(
             on_save_files, inputs=[image, state], outputs=[files]
