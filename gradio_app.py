@@ -94,12 +94,15 @@ def on_drag(model, points, max_iters, state, size, mask):
     handle_points = [torch.tensor(p).float() for p in points['handle']]
     target_points = [torch.tensor(p).float() for p in points['target']]
 
-    mask = Image.fromarray(mask['mask']).convert('L')
-    mask = np.array(mask) == 255
+    if mask.get('mask') is not None:
+        mask = Image.fromarray(mask['mask']).convert('L')
+        mask = np.array(mask) == 255
 
-    mask = torch.from_numpy(mask).float().to(device)
-    mask = mask.unsqueeze(0).unsqueeze(0)
-
+        mask = torch.from_numpy(mask).float().to(device)
+        mask = mask.unsqueeze(0).unsqueeze(0)
+    else:
+        mask = None
+        
     step = 0
     for sample2, latent, F, handle_points in drag_gan(model.g_ema, latent, noise, F,
                                                       handle_points, target_points, mask,
@@ -149,7 +152,7 @@ def on_change_model(selected, model):
         'sample': sample,
         'history': []
     }
-    return model, state, to_image(sample), size
+    return model, state, to_image(sample), to_image(sample), size
 
 
 def on_new_image(model):
@@ -267,7 +270,7 @@ def main():
         )
         reset_btn.click(on_reset, inputs=[points, image, state], outputs=[points, image])
         undo_btn.click(on_undo, inputs=[points, image, state, size], outputs=[points, image])
-        model_dropdown.change(on_change_model, inputs=[model_dropdown, model], outputs=[model, state, image, size])
+        model_dropdown.change(on_change_model, inputs=[model_dropdown, model], outputs=[model, state, image, mask, size])
         new_btn.click(on_new_image, inputs=[model], outputs=[image, mask, state, points, target_point])
         max_iters.change(on_max_iter_change, inputs=max_iters, outputs=progress)
     return demo
