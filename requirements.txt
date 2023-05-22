@@ -6,3 +6,4 @@ numpy
 ninja
 fire
 imageio
+imageio-ffmpeg
