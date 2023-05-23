@@ -10,9 +10,10 @@ Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulatio
 
 ![demo](assets/paper.png)
 
-:star2: **Features**
+:star2: **Updates**
 
 - [ ] Tweak performance.
+- [ ] Integrate into [InternGPT](https://github.com/OpenGVLab/InternGPT)
 - [ ] Automatically determining the number of iterations.
 - [x] Custom Image with GAN inversion.
 - [x] Download generated image and generation trajectory.
@@ -39,7 +40,7 @@ https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/f1516101-5667-4f73-9330-5
 
 ## Usage
 
-Ensure you have [PyTorch](https://pytorch.org/get-started/locally/), [Gradio](https://gradio.app/quickstart/), and [tqdm](https://github.com/tqdm/tqdm) installed.
+Ensure you have [PyTorch](https://pytorch.org/get-started/locally/), [Gradio](https://gradio.app/quickstart/) installed. You could install all the requirements via,
 
 ```bash
 pip install -r requirements.txt
