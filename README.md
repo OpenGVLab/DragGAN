@@ -25,6 +25,8 @@ Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulatio
 
 ## Demo
 
+Results of our implementation. 
+
 <p float="left">
   <img src="assets/mouse.gif" width="200" />
   <img src="assets/nose.gif" width="200" /> 
@@ -40,7 +42,7 @@ https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/f1516101-5667-4f73-9330-5
 
 ## Usage
 
-Ensure you have [PyTorch](https://pytorch.org/get-started/locally/), [Gradio](https://gradio.app/quickstart/) installed. You could install all the requirements via,
+Ensure you have a GPU and [PyTorch](https://pytorch.org/get-started/locally/), [Gradio](https://gradio.app/quickstart/) installed. You could install all the requirements via,
 
 ```bash
 pip install -r requirements.txt
