@@ -1,6 +1,6 @@
 # DragGAN
 
-:boom:  [`Colab Demo`](https://colab.research.google.com/github/Zeqiang-Lai/DragGAN/blob/master/colab.ipynb)
+:boom:  [`Colab Demo`](https://colab.research.google.com/github/Zeqiang-Lai/DragGAN/blob/master/colab.ipynb) | [`InternGPT Free Online Demo`](https://github.com/OpenGVLab/InternGPT)
 <!--  [`Online Demo`](https://6a05f355a8f139550c.gradio.live/)  -->
 <!-- > Note that the link of online demo will be updated regularly. -->
 
@@ -15,7 +15,7 @@ Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulatio
 :star2: **Updates**
 
 - [ ] Tweak performance.
-- [ ] Integrate into [InternGPT](https://github.com/OpenGVLab/InternGPT)
+- [x] Integrate into [InternGPT](https://github.com/OpenGVLab/InternGPT)
 - [ ] Automatically determining the number of iterations.
 - [x] Custom Image with GAN inversion.
 - [x] Download generated image and generation trajectory.
