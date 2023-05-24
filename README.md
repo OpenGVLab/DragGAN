@@ -16,9 +16,11 @@ Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulatio
 
 :star2: **Updates**
 
+This project is now a sub-project of [InternGPT](https://github.com/OpenGVLab/InternGPT) for interactive image editing. Future updates of more cool tools beyond DragGAN, e.g, interactive inpainting with bouding box, would be added in [InternGPT](https://github.com/OpenGVLab/InternGPT). 
+
 - [ ] Tweak performance.
-- [x] Integrate into [InternGPT](https://github.com/OpenGVLab/InternGPT)
 - [ ] Automatically determining the number of iterations.
+- [x] Integrate into [InternGPT](https://github.com/OpenGVLab/InternGPT)
 - [x] Custom Image with GAN inversion.
 - [x] Download generated image and generation trajectory.
 - [x] Controling generation process with GUI.
