@@ -4,7 +4,7 @@
 <!--  [`Online Demo`](https://6a05f355a8f139550c.gradio.live/)  -->
 <!-- > Note that the link of online demo will be updated regularly. -->
 
-> **An out-of-box online demo integrated in [InternGPT](https://github.com/OpenGVLab/InternGPT) - a super cool pointing-language-driven visual interactive system.**
+> **An out-of-box online demo is integrated in [InternGPT](https://github.com/OpenGVLab/InternGPT) - a super cool pointing-language-driven visual interactive system. Enjoy for free.:lollipop:**
 > 
 > Note for Colab, remember to select a GPU via `Runtime/Change runtime type` (`代码执行程序/更改运行时类型`).
 > 
