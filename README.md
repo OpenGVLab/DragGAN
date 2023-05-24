@@ -23,9 +23,9 @@ This project is now a sub-project of [InternGPT](https://github.com/OpenGVLab/In
 - [x] Integrate into [InternGPT](https://github.com/OpenGVLab/InternGPT)
 - [x] Custom Image with GAN inversion.
 - [x] Download generated image and generation trajectory.
-- [x] Controling generation process with GUI.
+- [x] Controlling generation process with GUI.
 - [x] Automatically download stylegan2 checkpoint.
-- [x] Support movable region, mutliple handle points. 
+- [x] Support movable region, multiple handle points.
 - [x] Gradio and Colab Demo.
 
 
@@ -54,13 +54,13 @@ Ensure you have a GPU and [PyTorch](https://pytorch.org/get-started/locally/), [
 pip install -r requirements.txt
 ```
 
-Lanuch the Gradio demo
+Launch the Gradio demo
 
 ```
 python gradio_app.py
 ```
 
-> If you have any issuse for downloading the checkpoint, you could manually download it from [here](https://huggingface.co/aaronb/StyleGAN2/tree/main) and put it into the folder `checkpoints`.
+> If you have any issue for downloading the checkpoint, you could manually download it from [here](https://huggingface.co/aaronb/StyleGAN2/tree/main) and put it into the folder `checkpoints`.
 
 ## Acknowledgement
 
