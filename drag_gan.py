@@ -136,20 +136,21 @@ def bilinear_interpolate_torch(im, y, x):
     y : 1,numPoints -- pixel location y float
     x : 1,numPOints -- pixel location y float
     """
-
-    x0 = torch.floor(x).long()
+    device = im.device
+    
+    x0 = torch.floor(x).long().to(device)
     x1 = x0 + 1
 
-    y0 = torch.floor(y).long()
+    y0 = torch.floor(y).long().to(device)
     y1 = y0 + 1
 
-    wa = (x1.float() - x) * (y1.float() - y)
-    wb = (x1.float() - x) * (y - y0.float())
-    wc = (x - x0.float()) * (y1.float() - y)
-    wd = (x - x0.float()) * (y - y0.float())
+    wa = ((x1.float() - x) * (y1.float() - y)).to(device)
+    wb = ((x1.float() - x) * (y - y0.float())).to(device)
+    wc = ((x - x0.float()) * (y1.float() - y)).to(device)
+    wd = ((x - x0.float()) * (y - y0.float())).to(device)
     # Instead of clamp
-    x1 = x1 - torch.floor(x1 / im.shape[3]).int()
-    y1 = y1 - torch.floor(y1 / im.shape[2]).int()
+    x1 = x1 - torch.floor(x1 / im.shape[3]).int().to(device)
+    y1 = y1 - torch.floor(y1 / im.shape[2]).int().to(device)
     Ia = im[:, :, y0, x0]
     Ib = im[:, :, y1, x0]
     Ic = im[:, :, y0, x1]
