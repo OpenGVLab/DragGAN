@@ -165,7 +165,7 @@ def upfirdn2d(input, kernel, up=1, down=1, pad=(0, 0)):
         pad = (pad[0], pad[1], pad[0], pad[1])
 
     if input.device.type == "cpu":
-        out = upfirdn2d_native(input, kernel, *up, *down, *pad)
+        out = _upfirdn2d_native(input, kernel, *up, *down, *pad)
 
     else:
         out = UpFirDn2d.apply(input, kernel, up, down, pad)
