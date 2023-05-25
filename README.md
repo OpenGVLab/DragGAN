@@ -86,6 +86,8 @@ Launch the Gradio demo
 
 ```bash
 python -m draggan.web
+# running on cpu
+python -m draggan.web --device cpu
 ```
 
 ### Clone and Install 
@@ -104,8 +106,10 @@ pip install -r requirements.txt
 
 Launch the Gradio demo
 
-```
+```bash
 python gradio_app.py
+# running on cpu
+python gradio_app.py --device cpu
 ```
 
 > If you have any issue for downloading the checkpoint, you could manually download it from [here](https://huggingface.co/aaronb/StyleGAN2/tree/main) and put it into the folder `checkpoints`.
