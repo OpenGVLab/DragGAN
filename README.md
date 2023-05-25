@@ -8,7 +8,9 @@
 > 
 > Note for Colab, remember to select a GPU via `Runtime/Change runtime type` (`代码执行程序/更改运行时类型`).
 > 
-> Due to the limitation of GAN inversion, it is possible that your custom images are distorted. Besides, it is also possible the manipulations fail due to the limitation of our implementation.
+> 🤩 Custom Image with GAN inversion is supported, but it is possible that your custom images are distorted  due to the limitation of GAN inversion. Besides, it is also possible the manipulations fail due to the limitation of our implementation.
+>
+> 🤩 We now support StyleGAN2-ada with much higher quality and more types of images. Try it by selecting models started with "ada".
 
 Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
 
@@ -24,9 +26,9 @@ Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulatio
 - [ ] Tweak performance.
 - [ ] Improving installation experience.
 - [ ] Automatically determining the number of iterations.
-- [x] 🤩 We now support StyleGAN2-ada with much higher quality and more types of images. Try it by selecting models started with "ada".
+- [x] Support StyleGAN2-ada.
 - [x] Integrate into [InternGPT](https://github.com/OpenGVLab/InternGPT)
-- [x] 🤩 Custom Image with GAN inversion.
+- [x] Custom Image with GAN inversion.
 - [x] Download generated image and generation trajectory.
 - [x] Controlling generation process with GUI.
 - [x] Automatically download stylegan2 checkpoint.
