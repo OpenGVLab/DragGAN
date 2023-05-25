@@ -12,9 +12,6 @@
 
 Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
 
-<!-- ![demo](assets/paper.png)
-Results of our implementation. 
- -->
 <p float="left">
   <img src="assets/mouse.gif" width="200" />
   <img src="assets/nose.gif" width="200" /> 
@@ -38,7 +35,13 @@ This project is now a sub-project of [InternGPT](https://github.com/OpenGVLab/In
 - [x] Gradio and Colab Demo.
 
 
-## Demo
+## How it Work ?
+
+Check out the original [paper]((https://vcai.mpi-inf.mpg.de/projects/DragGAN/)) for the backend algorithm and math.
+
+![demo](assets/paper.png)
+
+Here is a simple tutorial video showing how to use our implementation.
 
 https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/f1516101-5667-4f73-9330-57fc45754283
 
