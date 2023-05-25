@@ -6,15 +6,24 @@ from torch.nn import functional as F
 from torch.autograd import Function
 from torch.utils.cpp_extension import load
 
+import warnings
 
-module_path = os.path.dirname(__file__)
-fused = load(
-    "fused",
-    sources=[
-        os.path.join(module_path, "fused_bias_act.cpp"),
-        os.path.join(module_path, "fused_bias_act_kernel.cu"),
-    ],
-)
+module_path = os.path.dirname(os.path.abspath(__file__))
+
+try:
+    fused = load(
+        "fused",
+        sources=[
+            os.path.join(module_path, "fused_bias_act.cpp"),
+            os.path.join(module_path, "fused_bias_act_kernel.cu"),
+        ],
+    )
+except:
+    warnings.warn(
+        f"Fail to build torch extension, switch to native implementation"
+    )
+
+    fused = None
 
 
 class FusedLeakyReLUFunctionBackward(Function):
@@ -125,3 +134,24 @@ def fused_leaky_relu(input, bias=None, negative_slope=0.2, scale=2 ** 0.5):
         return FusedLeakyReLUFunction.apply(
             input.contiguous(), bias, negative_slope, scale
         )
+
+
+class FusedLeakyReLU_Native(nn.Module):
+    def __init__(self, channel, bias=True, negative_slope=0.2, scale=2 ** 0.5):
+        super().__init__()
+
+        if bias:
+            self.bias = nn.Parameter(torch.zeros(channel))
+
+        else:
+            self.bias = None
+
+        self.negative_slope = negative_slope
+        self.scale = scale
+
+    def forward(self, input):
+        return fused_leaky_relu_native(input, self.bias, self.negative_slope, self.scale)
+
+
+def fused_leaky_relu_native(input, bias, negative_slope=0.2, scale=2 ** 0.5):
+    return scale * F.leaky_relu(input + bias.view((1, -1) + (1,) * (len(input.shape) - 2)), negative_slope=negative_slope)

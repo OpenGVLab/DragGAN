@@ -76,6 +76,8 @@ def conv_transpose2d(
 
 
 def could_use_op(input):
+    return False
+
     if (not enabled) or (not torch.backends.cudnn.enabled):
         return False
 

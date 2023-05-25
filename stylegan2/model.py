@@ -5,7 +5,25 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
-from .op import FusedLeakyReLU, fused_leaky_relu, upfirdn2d, conv2d_gradfix
+from .op.fused_act import fused
+
+if fused is not None:
+    from .op.fused_act import FusedLeakyReLU, fused_leaky_relu
+else:
+    from .op import FusedLeakyReLU_Native as FusedLeakyReLU
+    from .op import fused_leaky_relu_native as fused_leaky_relu
+
+from .op.upfirdn2d import upfirdn2d_op
+
+if upfirdn2d_op is not None:
+    from .op.upfirdn2d import upfirdn2d
+else:
+    from .op import upfirdn2d_native as upfirdn2d
+
+from .op import conv2d_gradfix
+
+# https://github.com/rosinality/stylegan2-pytorch/blob/master/op/upfirdn2d.py#L152
+# https://github.com/rosinality/stylegan2-pytorch/issues/70
 
 
 class PixelNorm(nn.Module):
