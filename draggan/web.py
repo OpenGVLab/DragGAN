@@ -335,6 +335,13 @@ def main():
 
 
 if __name__ == '__main__':
-    import fire
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--device', default='cuda')
+    parser.add_argument('--share', action='store_true')
+    parser.add_argument('-p', '--port', default=None)
+    parser.add_argument('--ip', default=None)
+    args = parser.parse_args()
+    device = args.device
     demo = main()
-    fire.Fire(demo.queue(concurrency_count=1, max_size=20).launch)
+    demo.queue(concurrency_count=1, max_size=20).launch(share=args.share, server_name=args.ip, server_port=args.port)
