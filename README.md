@@ -11,7 +11,7 @@ pip install draggan
 > 
 > Note for Colab, remember to select a GPU via `Runtime/Change runtime type` (`代码执行程序/更改运行时类型`).
 
-Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
+Implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
 
 <p float="left">
   <img src="assets/mouse.gif" width="200" />
@@ -19,6 +19,17 @@ Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulatio
   <img src="assets/cat.gif" width="200" />
   <img src="assets/horse.gif" width="200" />
 </p>
+
+## How it Work ?
+
+
+Here is a simple tutorial video showing how to use our implementation.
+
+https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/f1516101-5667-4f73-9330-57fc45754283
+
+Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) for the backend algorithm and math.
+
+![demo](assets/paper.png)
 
 ## News
 
@@ -44,15 +55,6 @@ Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulatio
 
 > This project is now a sub-project of [InternGPT](https://github.com/OpenGVLab/InternGPT) for interactive image editing. Future updates of more cool tools beyond DragGAN would be added in [InternGPT](https://github.com/OpenGVLab/InternGPT). 
 
-## How it Work ?
-
-Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) for the backend algorithm and math.
-
-![demo](assets/paper.png)
-
-Here is a simple tutorial video showing how to use our implementation.
-
-https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/f1516101-5667-4f73-9330-57fc45754283
 
 
 
