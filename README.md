@@ -96,12 +96,6 @@ python gradio_app.py
 
 > If you have any issue for downloading the checkpoint, you could manually download it from [here](https://huggingface.co/aaronb/StyleGAN2/tree/main) and put it into the folder `checkpoints`.
 
-## Acknowledgement
-
-[Official DragGAN](https://github.com/XingangPan/DragGAN) &ensp; [StyleGAN2](https://github.com/NVlabs/stylegan2)  &ensp; [StyleGAN2-pytorch](https://github.com/rosinality/stylegan2-pytorch)  &ensp; [StyleGAN2-Ada](https://github.com/NVlabs/stylegan2-ada-pytorch)
-
-<!-- https://github.com/omertov/encoder4editing -->
-
 ## Citation
 
 ```bibtex
@@ -112,3 +106,16 @@ python gradio_app.py
     year={2023}
 }
 ```
+
+
+## Acknowledgement
+
+[Official DragGAN](https://github.com/XingangPan/DragGAN) &ensp; [StyleGAN2](https://github.com/NVlabs/stylegan2)  &ensp; [StyleGAN2-pytorch](https://github.com/rosinality/stylegan2-pytorch)  &ensp; [StyleGAN2-Ada](https://github.com/NVlabs/stylegan2-ada-pytorch)
+
+
+Welcome to discuss with us and continuously improve the user experience of DragGAN.
+Reach us with this WeChat QR Code.
+
+<p align="left"><img width="300" alt="image" src="https://pjlab-gvm-data.oss-cn-shanghai.aliyuncs.com/papers/media/wechat_group.jpg"></p> 
+
+
