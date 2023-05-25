@@ -37,7 +37,7 @@ This project is now a sub-project of [InternGPT](https://github.com/OpenGVLab/In
 
 ## How it Work ?
 
-Check out the original [paper]((https://vcai.mpi-inf.mpg.de/projects/DragGAN/)) for the backend algorithm and math.
+Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) for the backend algorithm and math.
 
 ![demo](assets/paper.png)
 
