@@ -13,7 +13,8 @@ device = 'cuda'
 
 
 SIZE_TO_CLICK_SIZE = {
-    1024: 5,
+    1024: 8,
+    512: 5,
     256: 2
 }
 
@@ -22,7 +23,15 @@ CKPT_SIZE = {
     'stylegan2-cat-config-f.pt': 256,
     'stylegan2-church-config-f.pt': 256,
     'stylegan2-horse-config-f.pt': 256,
+    'ada/ffhq.pt': 1024,
+    'ada/afhqcat.pt': 512,
+    'ada/afhqdog.pt': 512,
+    'ada/afhqwild.pt': 512,
+    'ada/brecahad.pt': 512,
+    'ada/metfaces.pt': 512,
 }
+
+DEFAULT_CKPT = 'stylegan2-ffhq-config-f.pt'
 
 
 class grImage(gr.components.Image):
@@ -229,7 +238,7 @@ def main():
     torch.cuda.manual_seed(25)
 
     with gr.Blocks() as demo:
-        wrapped_model = ModelWrapper()
+        wrapped_model = ModelWrapper(ckpt=DEFAULT_CKPT, size=CKPT_SIZE[DEFAULT_CKPT])
         model = gr.State(wrapped_model)
         sample_z = torch.randn([1, 512], device=device)
         latent, noise = wrapped_model.g_ema.prepare([sample_z])
@@ -275,12 +284,12 @@ def main():
             'history': []
         })
         points = gr.State({'target': [], 'handle': []})
-        size = gr.State(1024)
+        size = gr.State(CKPT_SIZE[DEFAULT_CKPT])
 
         with gr.Row():
             with gr.Column(scale=0.3):
                 with gr.Accordion("Model"):
-                    model_dropdown = gr.Dropdown(choices=list(CKPT_SIZE.keys()), value='stylegan2-ffhq-config-f.pt',
+                    model_dropdown = gr.Dropdown(choices=list(CKPT_SIZE.keys()), value=DEFAULT_CKPT,
                                                  label='StyleGAN2 model')
                     max_iters = gr.Slider(1, 500, 20, step=1, label='Max Iterations')
                     new_btn = gr.Button('New Image')
