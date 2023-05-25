@@ -1,4 +1,4 @@
-gradio
+gradio==3.28.1
 tqdm
 torch
 torchvision
