@@ -6,6 +6,7 @@
 ```bash
 pip install draggan
 ```
+<!-- pip install draggan -i https://pypi.org/simple/ -->
 
 > **An out-of-box online demo is integrated in [InternGPT](https://github.com/OpenGVLab/InternGPT) - a super cool pointing-language-driven visual interactive system. Enjoy for free.:lollipop:**
 > 
@@ -62,9 +63,20 @@ https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/f1516101-5667-4f73-9330-5
 
 ### With PyPI
 
+We recommend to use Conda to install requirements.
+
 ```bash
 conda create -n draggan python=3.7
 conda activate draggan
+```
+
+Install PyTorch following the [official instructions](https://pytorch.org/get-started/locally/)
+```bash
+conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia 
+```
+
+Install DragGAN
+```bash
 pip install draggan
 ```
 
