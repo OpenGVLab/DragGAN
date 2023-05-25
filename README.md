@@ -1,14 +1,15 @@
 # DragGAN
+[![PyPI](https://img.shields.io/pypi/v/draggan)](https://pypi.org/project/draggan/) 
 
 :boom:  [`Colab Demo`](https://colab.research.google.com/github/Zeqiang-Lai/DragGAN/blob/master/colab.ipynb) | [`InternGPT Free Online Demo`](https://github.com/OpenGVLab/InternGPT)
-<!--  [`Online Demo`](https://6a05f355a8f139550c.gradio.live/)  -->
-<!-- > Note that the link of online demo will be updated regularly. -->
+
+```bash
+pip install draggan
+```
 
 > **An out-of-box online demo is integrated in [InternGPT](https://github.com/OpenGVLab/InternGPT) - a super cool pointing-language-driven visual interactive system. Enjoy for free.:lollipop:**
 > 
 > Note for Colab, remember to select a GPU via `Runtime/Change runtime type` (`代码执行程序/更改运行时类型`).
-> 
-> Due to the limitation of GAN inversion, it is possible that your custom images are distorted. Besides, it is also possible the manipulations fail due to the limitation of our implementation.
 
 Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
 
@@ -19,14 +20,20 @@ Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulatio
   <img src="assets/horse.gif" width="200" />
 </p>
 
+## News
+
 :star2: **What's New**
 
-This project is now a sub-project of [InternGPT](https://github.com/OpenGVLab/InternGPT) for interactive image editing. Future updates of more cool tools beyond DragGAN would be added in [InternGPT](https://github.com/OpenGVLab/InternGPT). 
+- [2023/5/25] DragGAN is on PyPI, simple install via `pip install draggan`. Also addressed the common CUDA problems https://github.com/Zeqiang-Lai/DragGAN/issues/38  https://github.com/Zeqiang-Lai/DragGAN/issues/12
+- [2023/5/25] We now support StyleGAN2-ada with much higher quality and more types of images. Try it by selecting models started with "ada".
+- [2023/5/24] Custom Image with GAN inversion is supported, but it is possible that your custom images are distorted  due to the limitation of GAN inversion. Besides, it is also possible the manipulations fail due to the limitation of our implementation.
+
+:star2: **Changelog**
 
 - [ ] Tweak performance.
-- [ ] Improving installation experience.
+- [x] Improving installation experience, DragGAN is now on [PyPI](https://pypi.org/project/draggan).
 - [ ] Automatically determining the number of iterations.
-- [x] We now support StyleGAN2-Ada with much higher quality and more types of images. 
+- [x] Support StyleGAN2-ada.
 - [x] Integrate into [InternGPT](https://github.com/OpenGVLab/InternGPT)
 - [x] Custom Image with GAN inversion.
 - [x] Download generated image and generation trajectory.
@@ -35,6 +42,7 @@ This project is now a sub-project of [InternGPT](https://github.com/OpenGVLab/In
 - [x] Support movable region, multiple handle points.
 - [x] Gradio and Colab Demo.
 
+> This project is now a sub-project of [InternGPT](https://github.com/OpenGVLab/InternGPT) for interactive image editing. Future updates of more cool tools beyond DragGAN would be added in [InternGPT](https://github.com/OpenGVLab/InternGPT). 
 
 ## How it Work ?
 
@@ -52,11 +60,29 @@ https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/f1516101-5667-4f73-9330-5
 
 ## Running Locally
 
+### With PyPI
+
+```bash
+conda create -n draggan python=3.7
+conda activate draggan
+pip install draggan
+```
+
+Launch the Gradio demo
+
+```bash
+python -m draggan.web
+```
+
+### Clone and Install 
+
 Ensure you have a GPU and CUDA installed. We use Python 3.7 for testing, other versions (>= 3.7) of Python should work too, but not tested. We recommend to use [Conda](https://conda.io/projects/conda/en/stable/user-guide/install/download.html) to prepare all the requirements.
 
 For Windows users, you might encounter some issues caused by StyleGAN custom ops, youd could find some solutions from the [issues pannel](https://github.com/Zeqiang-Lai/DragGAN/issues). We are also working on a more friendly package without setup.
 
 ```bash
+git clone https://github.com/Zeqiang-Lai/DragGAN.git
+cd DragGAN
 conda create -n draggan python=3.7
 conda activate draggan
 pip install -r requirements.txt
@@ -72,7 +98,7 @@ python gradio_app.py
 
 ## Acknowledgement
 
-[Official DragGAN](https://github.com/XingangPan/DragGAN) &ensp; [StyleGAN2](https://github.com/NVlabs/stylegan2)  &ensp; [StyleGAN2-pytorch](https://github.com/rosinality/stylegan2-pytorch)
+[Official DragGAN](https://github.com/XingangPan/DragGAN) &ensp; [StyleGAN2](https://github.com/NVlabs/stylegan2)  &ensp; [StyleGAN2-pytorch](https://github.com/rosinality/stylegan2-pytorch)  &ensp; [StyleGAN2-Ada](https://github.com/NVlabs/stylegan2-ada-pytorch)
 
 <!-- https://github.com/omertov/encoder4editing -->
 
