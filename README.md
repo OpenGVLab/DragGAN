@@ -49,9 +49,7 @@ https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/f1516101-5667-4f73-9330-5
 
 ## Usage
 
-Ensure you have a GPU and [PyTorch](https://pytorch.org/get-started/locally/), [Gradio](https://gradio.app/quickstart/) installed.
-
-We use Python 3.7 for testing, other versions (>= 3.7) of Python should work too, but not tested. We recommend to use [Conda](https://conda.io/projects/conda/en/stable/user-guide/install/download.html) to prepare all the requirements.
+Ensure you have a GPU and CUDA installed. We use Python 3.7 for testing, other versions (>= 3.7) of Python should work too, but not tested. We recommend to use [Conda](https://conda.io/projects/conda/en/stable/user-guide/install/download.html) to prepare all the requirements.
 
 ```bash
 conda create -n draggan python=3.7
