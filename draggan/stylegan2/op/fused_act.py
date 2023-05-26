@@ -20,7 +20,7 @@ try:
     )
 except:
     warnings.warn(
-        f"Fail to build torch extension, switch to native implementation"
+        f"(This is not error) Switch to native implementation"
     )
 
     fused = None

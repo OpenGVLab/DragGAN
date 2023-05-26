@@ -344,4 +344,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     device = args.device
     demo = main()
+    print('Successfully loaded, starting gradio demo')
     demo.queue(concurrency_count=1, max_size=20).launch(share=args.share, server_name=args.ip, server_port=args.port)
