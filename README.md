@@ -62,6 +62,8 @@ Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) fo
 
 ### With PyPI
 
+📑 [Step by Step Tutorial](https://zeqiang-lai.github.io/blog/en/posts/drag_gan/) | [中文部署教程](https://zeqiang-lai.github.io/blog/posts/ai/drag_gan/)
+
 We recommend to use Conda to install requirements.
 
 ```bash
