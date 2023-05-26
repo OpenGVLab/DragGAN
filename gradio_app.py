@@ -132,7 +132,7 @@ def on_drag(model, points, max_iters, state, size, mask):
     step = 0
     for sample2, latent, F, handle_points in drag_gan(model.g_ema, latent, noise, F,
                                                       handle_points, target_points, mask,
-                                                      max_iters=max_iters, device=device):
+                                                      max_iters=max_iters):
         image = to_image(sample2)
 
         state['F'] = F
