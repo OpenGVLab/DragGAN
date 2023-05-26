@@ -42,6 +42,7 @@ Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) fo
 - [ ] Tweak performance.
 - [x] Improving installation experience, DragGAN is now on [PyPI](https://pypi.org/project/draggan).
 - [ ] Automatically determining the number of iterations.
+- [ ] Allow to save video without point annotations.
 - [x] Support StyleGAN2-ada.
 - [x] Integrate into [InternGPT](https://github.com/OpenGVLab/InternGPT)
 - [x] Custom Image with GAN inversion.
