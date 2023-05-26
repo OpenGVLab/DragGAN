@@ -77,6 +77,8 @@ conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvi
 Install DragGAN
 ```bash
 pip install draggan
+# If you meet ERROR: Could not find a version that satisfies the requirement draggan (from versions: none), use
+pip install draggan -i https://pypi.org/simple/
 ```
 
 Launch the Gradio demo
