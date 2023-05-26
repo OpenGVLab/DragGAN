@@ -159,7 +159,7 @@ def bilinear_interpolate_torch(im, y, x):
     return Ia * wa + Ib * wb + Ic * wc + Id * wd
 
 
-def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points, mask, max_iters=1000):
+def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points, mask, max_iters=1000, device='cuda'):
     handle_points0 = copy.deepcopy(handle_points)
     n = len(handle_points)
     r1, r2, lam, d = 3, 12, 20, 1
@@ -168,7 +168,7 @@ def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points
         points = []
         for i in range(x - d, x + d):
             for j in range(y - d, y + d):
-                points.append(torch.tensor([i, j]).float().cuda())
+                points.append(torch.tensor([i, j]).float().to(device))
         return points
 
     F0 = F.detach().clone()
