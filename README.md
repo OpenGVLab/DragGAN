@@ -88,11 +88,12 @@ pip install draggan -i https://pypi.org/simple/
 Launch the Gradio demo
 
 ```bash
+# if you have a Nvidia GPU
 python -m draggan.web
-# running on cpu
-python -m draggan.web --device cpu
-# running on m1 mac
+# if you use m1/m2 mac
 python -m draggan.web --device mps
+# otherwise
+python -m draggan.web --device cpu
 ```
 
 ### Clone and Install 
@@ -112,11 +113,12 @@ pip install -r requirements.txt
 Launch the Gradio demo
 
 ```bash
+# if you have a Nvidia GPU
 python gradio_app.py
-# running on cpu
-python gradio_app.py --device cpu
-# running on m1 mac
+# if you use m1/m2 mac
 python gradio_app.py --device mps
+# otherwise
+python gradio_app.py --device cpu
 ```
 
 > If you have any issue for downloading the checkpoint, you could manually download it from [here](https://huggingface.co/aaronb/StyleGAN2/tree/main) and put it into the folder `checkpoints`.
