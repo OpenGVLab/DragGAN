@@ -1,42 +1,12 @@
 import copy
-import os
 import random
-import urllib.request
 
 import torch
 import torch.nn.functional as FF
 import torch.optim
-from torchvision import utils
-from tqdm import tqdm
 
+from . import utils
 from .stylegan2.model import Generator
-
-BASE_DIR = os.path.join(os.path.expanduser('~'), 'draggan', 'checkpoints')
-
-
-class DownloadProgressBar(tqdm):
-    def update_to(self, b=1, bsize=1, tsize=None):
-        if tsize is not None:
-            self.total = tsize
-        self.update(b * bsize - self.n)
-
-
-def get_path(base_path):
-    save_path = os.path.join(BASE_DIR, base_path)
-    if not os.path.exists(save_path):
-        url = f"https://huggingface.co/aaronb/StyleGAN2/resolve/main/{base_path}"
-        print(f'{base_path} not found')
-        print('Try to download from huggingface: ', url)
-        os.makedirs(os.path.dirname(save_path), exist_ok=True)
-        download_url(url, save_path)
-        print('Downloaded to ', save_path)
-    return save_path
-
-
-def download_url(url, output_path):
-    with DownloadProgressBar(unit='B', unit_scale=True,
-                             miniters=1, desc=url.split('/')[-1]) as t:
-        urllib.request.urlretrieve(url, filename=output_path, reporthook=t.update_to)
 
 
 class CustomGenerator(Generator):
@@ -122,119 +92,151 @@ def stylegan2(
     n_mlp=8,
     ckpt='stylegan2-ffhq-config-f.pt'
 ):
-    g_ema = CustomGenerator(size, latent, n_mlp, channel_multiplier=channel_multiplier)
-    checkpoint = torch.load(get_path(ckpt))
+    g_ema = CustomGenerator(size, latent, n_mlp, channel_multiplier=channel_multiplier, human='human' in ckpt)
+    checkpoint = torch.load(utils.get_path(ckpt))
     g_ema.load_state_dict(checkpoint["g_ema"], strict=False)
     g_ema.requires_grad_(False)
     g_ema.eval()
     return g_ema
 
 
-def bilinear_interpolate_torch(im, y, x):
-    """
-    im : B,C,H,W
-    y : 1,numPoints -- pixel location y float
-    x : 1,numPOints -- pixel location y float
-    """
-    device = im.device
-
-    x0 = torch.floor(x).long().to(device)
-    x1 = x0 + 1
-
-    y0 = torch.floor(y).long().to(device)
-    y1 = y0 + 1
-
-    wa = ((x1.float() - x) * (y1.float() - y)).to(device)
-    wb = ((x1.float() - x) * (y - y0.float())).to(device)
-    wc = ((x - x0.float()) * (y1.float() - y)).to(device)
-    wd = ((x - x0.float()) * (y - y0.float())).to(device)
-    # Instead of clamp
-    x1 = x1 - torch.floor(x1 / im.shape[3]).int().to(device)
-    y1 = y1 - torch.floor(y1 / im.shape[2]).int().to(device)
-    Ia = im[:, :, y0, x0]
-    Ib = im[:, :, y1, x0]
-    Ic = im[:, :, y0, x1]
-    Id = im[:, :, y1, x1]
-
-    return Ia * wa + Ib * wb + Ic * wc + Id * wd
-
-
-def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points, mask, max_iters=1000):
+def drag_gan(
+    g_ema,
+    latent: torch.Tensor,
+    noise,
+    F,
+    handle_points,
+    target_points,
+    mask,
+    max_iters=1000,
+    r1=3,
+    r2=12,
+    lam=20,
+    d=2
+):
     handle_points0 = copy.deepcopy(handle_points)
-    n = len(handle_points)
-    r1, r2, lam, d = 3, 12, 20, 1
-
-    def neighbor(x, y, d):
-        points = []
-        for i in range(x - d, x + d):
-            for j in range(y - d, y + d):
-                points.append(torch.tensor([i, j]).float().cuda())
-        return points
+    handle_points = torch.stack(handle_points)
+    handle_points0 = torch.stack(handle_points0)
+    target_points = torch.stack(target_points)
 
     F0 = F.detach().clone()
+    device = latent.device
 
     latent_trainable = latent[:, :6, :].detach().clone().requires_grad_(True)
     latent_untrainable = latent[:, 6:, :].detach().clone().requires_grad_(False)
     optimizer = torch.optim.Adam([latent_trainable], lr=2e-3)
-    for iter in range(max_iters):
-        for s in range(1):
-            optimizer.zero_grad()
-            latent = torch.cat([latent_trainable, latent_untrainable], dim=1)
-            sample2, F2 = g_ema.generate(latent, noise)
+    for _ in range(max_iters):
+        if torch.allclose(handle_points, target_points, atol=d):
+            break
 
-            # motion supervision
-            loss = 0
-            for i in range(n):
-                pi, ti = handle_points[i], target_points[i]
-                di = (ti - pi) / torch.sum((ti - pi)**2)
+        optimizer.zero_grad()
+        latent = torch.cat([latent_trainable, latent_untrainable], dim=1)
+        sample2, F2 = g_ema.generate(latent, noise)
 
-                for qi in neighbor(int(pi[0]), int(pi[1]), r1):
-                    # f1 = F[..., int(qi[0]), int(qi[1])]
-                    # f2 = F2[..., int(qi[0] + di[0]), int(qi[1] + di[1])]
-                    f1 = bilinear_interpolate_torch(F2, qi[0], qi[1]).detach()
-                    f2 = bilinear_interpolate_torch(F2, qi[0] + di[0], qi[1] + di[1])
-                    loss += FF.l1_loss(f2, f1)
+        # motion supervision
+        loss = motion_supervison(handle_points, target_points, F2, r1, device)
 
-            if mask is not None:
-                loss += ((F2 - F0) * (1 - mask)).abs().mean() * lam
+        if mask is not None:
+            loss += ((F2 - F0) * (1 - mask)).abs().mean() * lam
 
-            loss.backward()
-            optimizer.step()
+        loss.backward()
+        optimizer.step()
 
-        # point tracking
         with torch.no_grad():
             sample2, F2 = g_ema.generate(latent, noise)
-            for i in range(n):
-                pi = handle_points0[i]
-                # f = F0[..., int(pi[0]), int(pi[1])]
-                f0 = bilinear_interpolate_torch(F0, pi[0], pi[1])
-                minv = 1e9
-                minx = 1e9
-                miny = 1e9
-                for qi in neighbor(int(handle_points[i][0]), int(handle_points[i][1]), r2):
-                    # f2 = F2[..., int(qi[0]), int(qi[1])]
-                    try:
-                        f2 = bilinear_interpolate_torch(F2, qi[0], qi[1])
-                    except:
-                        import ipdb
-                        ipdb.set_trace()
-                    v = torch.norm(f2 - f0, p=1)
-                    if v < minv:
-                        minv = v
-                        minx = int(qi[0])
-                        miny = int(qi[1])
-                handle_points[i][0] = minx
-                handle_points[i][1] = miny
+            handle_points = point_tracking(F2, F0, handle_points, handle_points0, r2, device)
 
         F = F2.detach().clone()
-        if iter % 1 == 0:
-            print(iter, loss.item(), handle_points, target_points)
-            # p = handle_points[0].int()
-            # sample2[0, :, p[0] - 5:p[0] + 5, p[1] - 5:p[1] + 5] = sample2[0, :, p[0] - 5:p[0] + 5, p[1] - 5:p[1] + 5] * 0
-            # t = target_points[0].int()
-            # sample2[0, :, t[0] - 5:t[0] + 5, t[1] - 5:t[1] + 5] = sample2[0, :, t[0] - 5:t[0] + 5, t[1] - 5:t[1] + 5] * 255
-
-            # sample2[0, :, 210, 134] = sample2[0, :, 210, 134] * 0
-            # utils.save_image(sample2, "test2.png", normalize=True, range=(-1, 1))
+        # if iter % 1 == 0:
+        #     print(iter, loss.item(), handle_points, target_points)
 
         yield sample2, latent, F2, handle_points
+
+
+def motion_supervison(handle_points, target_points, F2, r1, device):
+    loss = 0
+    n = len(handle_points)
+    for i in range(n):
+        target2handle = target_points[i] - handle_points[i]
+        d_i = target2handle / (torch.norm(target2handle) + 1e-7)
+        if torch.norm(d_i) > torch.norm(target2handle):
+            d_i = target2handle
+
+        mask = utils.create_circular_mask(
+            F2.shape[2], F2.shape[3], center=handle_points[i].tolist(), radius=r1
+        ).to(device)
+
+        coordinates = torch.nonzero(mask).float()  # shape [num_points, 2]
+
+        # Shift the coordinates in the direction d_i
+        shifted_coordinates = coordinates + d_i[None]
+
+        h, w = F2.shape[2], F2.shape[3]
+
+        # Extract features in the mask region and compute the loss
+        F_qi = F2[:, :, mask]  # shape: [C, H*W]
+
+        # Sample shifted patch from F
+        normalized_shifted_coordinates = shifted_coordinates.clone()
+        normalized_shifted_coordinates[:, 0] = (
+            2.0 * shifted_coordinates[:, 0] / (h - 1)
+        ) - 1  # for height
+        normalized_shifted_coordinates[:, 1] = (
+            2.0 * shifted_coordinates[:, 1] / (w - 1)
+        ) - 1  # for width
+        # Add extra dimensions for batch and channels (required by grid_sample)
+        normalized_shifted_coordinates = normalized_shifted_coordinates.unsqueeze(
+            0
+        ).unsqueeze(
+            0
+        )  # shape [1, 1, num_points, 2]
+        normalized_shifted_coordinates = normalized_shifted_coordinates.flip(
+            -1
+        )  # grid_sample expects [x, y] instead of [y, x]
+        normalized_shifted_coordinates = normalized_shifted_coordinates.clamp(-1, 1)
+
+        # Use grid_sample to interpolate the feature map F at the shifted patch coordinates
+        F_qi_plus_di = torch.nn.functional.grid_sample(
+            F2, normalized_shifted_coordinates, mode="bilinear", align_corners=True
+        )
+        # Output has shape [1, C, 1, num_points] so squeeze it
+        F_qi_plus_di = F_qi_plus_di.squeeze(2)  # shape [1, C, num_points]
+
+        loss += torch.nn.functional.l1_loss(F_qi.detach(), F_qi_plus_di)
+    return loss
+
+
+def point_tracking(
+    F: torch.Tensor,
+    F0: torch.Tensor,
+    handle_points: torch.Tensor,
+    handle_points0: torch.Tensor,
+    r2: int = 3,
+    device: torch.device = torch.device("cuda"),
+) -> torch.Tensor:
+
+    n = handle_points.shape[0]  # Number of handle points
+    new_handle_points = torch.zeros_like(handle_points)
+
+    for i in range(n):
+        # Compute the patch around the handle point
+        patch = utils.create_square_mask(
+            F.shape[2], F.shape[3], center=handle_points[i].tolist(), radius=r2
+        ).to(device)
+
+        # Find indices where the patch is True
+        patch_coordinates = torch.nonzero(patch)  # shape [num_points, 2]
+
+        # Extract features in the patch
+        F_qi = F[:, :, patch_coordinates[:, 0], patch_coordinates[:, 1]]
+        # Extract feature of the initial handle point
+        f_i = F0[:, :, handle_points0[i][0].long(), handle_points0[i][1].long()]
+
+        # Compute the L1 distance between the patch features and the initial handle point feature
+        distances = torch.norm(F_qi - f_i[:, :, None], p=1, dim=1)
+
+        # Find the new handle point as the one with minimum distance
+        min_index = torch.argmin(distances)
+        new_handle_points[i] = patch_coordinates[min_index]
+
+    return new_handle_points
