@@ -143,7 +143,8 @@ python gradio_app.py --device cpu
 Welcome to discuss with us and continuously improve the user experience of DragGAN.
 Reach us with this WeChat QR Code.
 
-<p align="left"><img width="300" alt="image" src="https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/3720b21b-a61c-45eb-a04a-2acbf670d290"></p> 
+<p align="left"><img width="300" alt="image" src="https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/739a6106-3a56-48be-ab45-b6cd0f1276b8"></p> 
+
 
 
 
