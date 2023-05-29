@@ -34,13 +34,14 @@ Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) fo
 
 :star2: **What's New**
 
+- [2023/5/29] A new version is in beta, install via `pip install draggan==1.1.0b1`, includes speed improvement and more models.
 - [2023/5/25] DragGAN is on PyPI, simple install via `pip install draggan`. Also addressed the common CUDA problems https://github.com/Zeqiang-Lai/DragGAN/issues/38  https://github.com/Zeqiang-Lai/DragGAN/issues/12
 - [2023/5/25] We now support StyleGAN2-ada with much higher quality and more types of images. Try it by selecting models started with "ada".
 - [2023/5/24] Custom Image with GAN inversion is supported, but it is possible that your custom images are distorted  due to the limitation of GAN inversion. Besides, it is also possible the manipulations fail due to the limitation of our implementation.
 
 :star2: **Changelog**
 
-- [x] Tweak performance is in beta, install via `pip install draggan==1.1.0b1`.
+- [x] Tweak performance.
 - [x] Improving installation experience, DragGAN is now on [PyPI](https://pypi.org/project/draggan).
 - [ ] Automatically determining the number of iterations.
 - [ ] Allow to save video without point annotations, custom image size.
