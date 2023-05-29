@@ -308,7 +308,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--share', action='store_true')
-    parser.add_argument('-p', '--port', default=None)
+    parser.add_argument('-p', '--port', type=int, default=None)
     parser.add_argument('--ip', default=None)
     args = parser.parse_args()
     device = args.device
