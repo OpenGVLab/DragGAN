@@ -247,33 +247,33 @@ def main():
         gr.Markdown(
             """
             # DragGAN
-            
+
             Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
-            
+
             [Our Implementation](https://github.com/Zeqiang-Lai/DragGAN) | [Official Implementation](https://github.com/XingangPan/DragGAN) (Not released yet)
 
             ## Tutorial
-            
+
             1. (Optional) Draw a mask indicate the movable region.
             2. Setup a least one pair of handle point and target point.
-            3. Click "Drag it". 
-            
+            3. Click "Drag it".
+
             ## Hints
-            
+
             - Handle points (Blue): the point you want to drag.
             - Target points (Red): the destination you want to drag towards to.
-            
+
             ## Primary Support of Custom Image.
-            
+
             - We now support dragging user uploaded image by GAN inversion.
-            - **Please upload your image at `Setup Handle Points` pannel.** Upload it from `Draw a Mask` would cause errors for now.
-            - Due to the limitation of GAN inversion, 
+            - **Please upload your image at `Setup Handle Points` panel.** Upload it from `Draw a Mask` would cause errors for now.
+            - Due to the limitation of GAN inversion,
                 - You might wait roughly 1 minute to see the GAN version of the uploaded image.
                 - The shown image might be slightly difference from the uploaded one.
                 - It could also fail to invert the uploaded image and generate very poor results.
-                - Idealy, you should choose the closest model of the uploaded image. For example, choose `stylegan2-ffhq-config-f.pt` for human face. `stylegan2-cat-config-f.pt` for cat.
-                
-            > Please fire an issue if you have encountered any problem. Also don't forgot to give a star to the [Official Repo](https://github.com/XingangPan/DragGAN), [our project](https://github.com/Zeqiang-Lai/DragGAN) could not exist without it.
+                - Ideally, you should choose the closest model of the uploaded image. For example, choose `stylegan2-ffhq-config-f.pt` for human face. `stylegan2-cat-config-f.pt` for cat.
+
+            > Please fire an issue if you have encountered any problem. Also don't forget to give a star to the [Official Repo](https://github.com/XingangPan/DragGAN), [our project](https://github.com/Zeqiang-Lai/DragGAN) could not exist without it.
             """,
         )
         state = gr.State({
