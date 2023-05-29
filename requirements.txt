@@ -9,3 +9,4 @@ imageio
 imageio-ffmpeg
 scikit-image
 IPython
+pyside6
