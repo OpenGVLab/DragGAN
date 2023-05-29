@@ -40,7 +40,7 @@ Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) fo
 
 :star2: **Changelog**
 
-- [ ] Tweak performance.
+- [x] Tweak performance is in beta, install via `pip install draggan==1.1.0b1`.
 - [x] Improving installation experience, DragGAN is now on [PyPI](https://pypi.org/project/draggan).
 - [ ] Automatically determining the number of iterations.
 - [ ] Allow to save video without point annotations, custom image size.
