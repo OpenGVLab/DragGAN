@@ -1,5 +1,6 @@
 # DragGAN
 [![PyPI](https://img.shields.io/pypi/v/draggan)](https://pypi.org/project/draggan/) 
+[![support](https://img.shields.io/badge/Support-macOS%20%7C%20Windows%20%7C%20Linux-blue)](#running-locally)
 
 :boom:  [`Colab Demo`](https://colab.research.google.com/github/Zeqiang-Lai/DragGAN/blob/master/colab.ipynb) | [`InternGPT Free Online Demo`](https://github.com/OpenGVLab/InternGPT) | [`Local Deployment`](#running-locally)
 
@@ -33,13 +34,14 @@ Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) fo
 
 :star2: **What's New**
 
+- [2023/5/29] A new version is in beta, install via `pip install draggan==1.1.0b1`, includes speed improvement and more models.
 - [2023/5/25] DragGAN is on PyPI, simple install via `pip install draggan`. Also addressed the common CUDA problems https://github.com/Zeqiang-Lai/DragGAN/issues/38  https://github.com/Zeqiang-Lai/DragGAN/issues/12
 - [2023/5/25] We now support StyleGAN2-ada with much higher quality and more types of images. Try it by selecting models started with "ada".
 - [2023/5/24] Custom Image with GAN inversion is supported, but it is possible that your custom images are distorted  due to the limitation of GAN inversion. Besides, it is also possible the manipulations fail due to the limitation of our implementation.
 
 :star2: **Changelog**
 
-- [ ] Tweak performance.
+- [x] Tweak performance.
 - [x] Improving installation experience, DragGAN is now on [PyPI](https://pypi.org/project/draggan).
 - [ ] Automatically determining the number of iterations.
 - [ ] Allow to save video without point annotations, custom image size.
@@ -87,8 +89,11 @@ pip install draggan -i https://pypi.org/simple/
 Launch the Gradio demo
 
 ```bash
+# if you have a Nvidia GPU
 python -m draggan.web
-# running on cpu
+# if you use m1/m2 mac
+python -m draggan.web --device mps
+# otherwise
 python -m draggan.web --device cpu
 ```
 
@@ -109,8 +114,11 @@ pip install -r requirements.txt
 Launch the Gradio demo
 
 ```bash
+# if you have a Nvidia GPU
 python gradio_app.py
-# running on cpu
+# if you use m1/m2 mac
+python gradio_app.py --device mps
+# otherwise
 python gradio_app.py --device cpu
 ```
 
@@ -136,7 +144,9 @@ python gradio_app.py --device cpu
 Welcome to discuss with us and continuously improve the user experience of DragGAN.
 Reach us with this WeChat QR Code.
 
-<p align="left"><img width="300" alt="image" src="https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/cd6b1602-dc19-442f-9ced-a441d4c81aec"></p> 
+<p align="left"><img width="300" alt="image" src="https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/739a6106-3a56-48be-ab45-b6cd0f1276b8"></p> 
+
+
 
 
 
