@@ -10,8 +10,8 @@ from torchvision import utils
 from tqdm import tqdm
 
 from .stylegan2.model import Generator
-
-BASE_DIR = os.path.join(os.path.expanduser('~'), 'draggan', 'checkpoints')
+module_path = os.path.dirname(__file__)
+BASE_DIR = os.path.join(module_path, 'checkpoints')
 
 
 class DownloadProgressBar(tqdm):
