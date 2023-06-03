@@ -63,16 +63,51 @@ Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) fo
 
 ## Running Locally
 
-### With Docker 
+### Improved Guide
+
+---
+
+## Running DragGAN with Docker
+
+Follow these steps to run DragGAN using Docker:
+
+### Prerequisites
+
+1. Install Docker on your system from the [official Docker website](https://www.docker.com/).
+2. Ensure that your system has [NVIDIA Docker support](https://github.com/NVIDIA/nvidia-docker) if you are using GPUs.
+
+### Step-by-step Guide
+
+1. Clone the DragGAN repository:
 
 ```bash
-git clone https://github.com/Zeqiang-Lai/DragGAN.git
-cd DragGAN
-docker build -t dragcan .
-docker run -t -p 7860:7860 --gpus all dragcan
+   git clone https://github.com/Zeqiang-Lai/DragGAN.git
 ```
 
-Web UI will be available at http://localhost:7860/
+2. Change into the DragGAN directory:
+
+```bash
+   cd DragGAN
+```
+
+3. Build the Docker image:
+
+```bash
+   docker build -t draggan .
+```
+
+4. Run the DragGAN Docker container:
+
+```bash
+   docker run -t -p 7860:7860 --gpus all draggan
+```
+
+Note: If you don't have a GPU, remove the `--gpus all` flag.
+
+5. Access the DragGAN Web UI at [http://localhost:7860](http://localhost:7860/).
+
+That's it! You're now running DragGAN in a Docker container.
+
 
 ### With PyPI
 
