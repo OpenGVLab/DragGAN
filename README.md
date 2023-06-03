@@ -2,7 +2,7 @@
 [![PyPI](https://img.shields.io/pypi/v/draggan)](https://pypi.org/project/draggan/) 
 [![support](https://img.shields.io/badge/Support-macOS%20%7C%20Windows%20%7C%20Linux-blue)](#running-locally)
 
-:boom:  [`Colab Demo`](https://colab.research.google.com/github/Zeqiang-Lai/DragGAN/blob/master/colab.ipynb) | [`InternGPT Free Online Demo`](https://github.com/OpenGVLab/InternGPT) | [`Local Deployment`](#running-locally)
+:boom:  [`Colab Demo`](https://colab.research.google.com/github/Zeqiang-Lai/DragGAN/blob/master/colab.ipynb) | [`InternGPT Free Online Demo`](https://github.com/OpenGVLab/InternGPT) | [`Local Deployment`](#running-locally) 
 
 <!-- pip install draggan -i https://pypi.org/simple/ -->
 
@@ -57,67 +57,12 @@ Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) fo
 
 > This project is now a sub-project of [InternGPT](https://github.com/OpenGVLab/InternGPT) for interactive image editing. Future updates of more cool tools beyond DragGAN would be added in [InternGPT](https://github.com/OpenGVLab/InternGPT). 
 
-
-
-
-
 ## Running Locally
 
-### Running DragGAN with Docker
+### System Requirements
 
-Follow these steps to run DragGAN using Docker:
-
-#### Prerequisites
-
-1. Install Docker on your system from the [official Docker website](https://www.docker.com/).
-2. Ensure that your system has [NVIDIA Docker support](https://github.com/NVIDIA/nvidia-docker) if you are using GPUs.
-
-#### Run using docker Hub image
-
-```bash
-  # For GPU
-  docker run -t -p 7860:7860 --gpus all baydarov/draggan
-```
-
-```bash
-  # For CPU only (not recommended)
-  docker run -t -p 7860:7860 baydarov/draggan --device cpu
-```
-
-#### Step-by-step Guide with building image locally
-
-1. Clone the DragGAN repository and build the Docker image:
-
-```bash
-   git clone https://github.com/Zeqiang-Lai/DragGAN.git # clone repo
-   cd DragGAN                                           # change into the repo directory
-   docker build -t draggan .                            # build image
-```
-
-2. Run the DragGAN Docker container:
-
-```bash
-  # For GPU
-  docker run -t -p 7860:7860 --gpus all draggan
-```
-
-```bash
-  # For CPU (not recommended)
-  docker run -t -p 7860:7860 draggan --device cpu
-```
-
-3. The DragGAN Web UI will be accessible once you see the following output in your console:
-
-```
-  ...
-  Running on local URL: http://0.0.0.0:7860
-  ...
-```
-
-Visit [http://localhost:7860](http://localhost:7860/) to access the Web UI.
-
-That's it! You're now running DragGAN in a Docker container.
-
+- We support running on GPU, CPU, and macOS m1/m2 chips. 
+- When using with GPU, 8 GB memory is required for 1024 models. 6 GB is recommended for 512 models.
 
 ### With PyPI
 
@@ -179,6 +124,62 @@ python gradio_app.py --device cpu
 ```
 
 > If you have any issue for downloading the checkpoint, you could manually download it from [here](https://huggingface.co/aaronb/StyleGAN2/tree/main) and put it into the folder `checkpoints`.
+
+### Running DragGAN with Docker
+
+Follow these steps to run DragGAN using Docker:
+
+#### Prerequisites
+
+1. Install Docker on your system from the [official Docker website](https://www.docker.com/).
+2. Ensure that your system has [NVIDIA Docker support](https://github.com/NVIDIA/nvidia-docker) if you are using GPUs.
+
+#### Run using docker Hub image
+
+```bash
+  # For GPU
+  docker run -t -p 7860:7860 --gpus all baydarov/draggan
+```
+
+```bash
+  # For CPU only (not recommended)
+  docker run -t -p 7860:7860 baydarov/draggan --device cpu
+```
+
+#### Step-by-step Guide with building image locally
+
+1. Clone the DragGAN repository and build the Docker image:
+
+```bash
+   git clone https://github.com/Zeqiang-Lai/DragGAN.git # clone repo
+   cd DragGAN                                           # change into the repo directory
+   docker build -t draggan .                            # build image
+```
+
+2. Run the DragGAN Docker container:
+
+```bash
+  # For GPU
+  docker run -t -p 7860:7860 --gpus all draggan
+```
+
+```bash
+  # For CPU (not recommended)
+  docker run -t -p 7860:7860 draggan --device cpu
+```
+
+3. The DragGAN Web UI will be accessible once you see the following output in your console:
+
+```
+  ...
+  Running on local URL: http://0.0.0.0:7860
+  ...
+```
+
+Visit [http://localhost:7860](http://localhost:7860/) to access the Web UI.
+
+That's it! You're now running DragGAN in a Docker container.
+
 
 ## Citation
 
