@@ -98,13 +98,22 @@ Follow these steps to run DragGAN using Docker:
 
 4. Run the DragGAN Docker container:
 
+For GPU:
 ```bash
    docker run -t -p 7860:7860 --gpus all draggan
 ```
 
-Note: If you don't have a GPU, remove the `--gpus all` flag.
+For CPU only (optional):
+```bash
+  docker run -t -p 7860:7860 draggan --device cpu
+```
 
-5. Access the DragGAN Web UI at [http://localhost:7860](http://localhost:7860/).
+5. The DragGAN Web UI will be accessible once you see the following output in your console:
+
+```
+Running on local URL: http://0.0.0.0:7860
+```
+Visit [http://localhost:7860](http://localhost:7860/) to access the Web UI.
 
 That's it! You're now running DragGAN in a Docker container.
 
