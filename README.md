@@ -83,7 +83,7 @@ Follow these steps to run DragGAN using Docker:
   docker run -t -p 7860:7860 baydarov/draggan --device cpu
 ```
 
-#### Step-by-step Guide with building image from repos
+#### Step-by-step Guide with building image locally
 
 1. Clone the DragGAN repository and build the Docker image:
 
