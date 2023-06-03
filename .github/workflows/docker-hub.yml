@@ -1,4 +1,4 @@
-name: Build and Push Docker Image to Docker Hub
+name: update-docker-hub-image
 
 on:
   push:
@@ -9,16 +9,6 @@ env:
   IMAGE_NAME: baydarov/draggan
 
 jobs:
-
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --no-cache --force-rm
-
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
