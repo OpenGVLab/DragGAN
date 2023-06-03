@@ -138,12 +138,12 @@ Follow these steps to run DragGAN using Docker:
 
 ```bash
   # For GPU
-  docker run -t -p 7860:7860 --gpus all baydarov/draggan
+  docker run -t -p 7860:7860 --gpus all baydarov/draggan:main
 ```
 
 ```bash
   # For CPU only (not recommended)
-  docker run -t -p 7860:7860 baydarov/draggan --device cpu
+  docker run -t -p 7860:7860 baydarov/draggan:main --device cpu
 ```
 
 #### Step-by-step Guide with building image locally
