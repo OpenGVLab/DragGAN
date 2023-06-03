@@ -60,59 +60,61 @@ Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) fo
 
 
 
-
 ## Running Locally
 
-### Improved Guide
-
----
-
-## Running DragGAN with Docker
+### Running DragGAN with Docker
 
 Follow these steps to run DragGAN using Docker:
 
-### Prerequisites
+#### Prerequisites
 
 1. Install Docker on your system from the [official Docker website](https://www.docker.com/).
 2. Ensure that your system has [NVIDIA Docker support](https://github.com/NVIDIA/nvidia-docker) if you are using GPUs.
 
-### Step-by-step Guide
-
-1. Clone the DragGAN repository:
-
-```bash
-   git clone https://github.com/Zeqiang-Lai/DragGAN.git
-```
-
-2. Change into the DragGAN directory:
-
-```bash
-   cd DragGAN
-```
-
-3. Build the Docker image:
-
-```bash
-   docker build -t draggan .
-```
-
-4. Run the DragGAN Docker container:
+#### Run using docker Hub image
 
 For GPU:
+```bash
+   docker run -t -p 7860:7860 --gpus all baydarov/draggan
+```
+
+For CPU only:
+```bash
+  docker run -t -p 7860:7860 baydarov/draggan --device cpu
+```
+
+#### Step-by-step Guide with building image from repos
+
+1. Clone the DragGAN repository and build the Docker image:
+
+```bash
+   git clone https://github.com/Zeqiang-Lai/DragGAN.git # clone repo
+   cd DragGAN # change into the repo directory
+   docker build -t draggan . # build image
+```
+
+2. Run the DragGAN Docker container:
+
+For GPU:
+
 ```bash
    docker run -t -p 7860:7860 --gpus all draggan
 ```
 
 For CPU only (optional):
+
 ```bash
   docker run -t -p 7860:7860 draggan --device cpu
 ```
 
-5. The DragGAN Web UI will be accessible once you see the following output in your console:
+3. The DragGAN Web UI will be accessible once you see the following output in your console:
 
 ```
-Running on local URL: http://0.0.0.0:7860
+  ...
+  Running on local URL: http://0.0.0.0:7860
+  ...
 ```
+
 Visit [http://localhost:7860](http://localhost:7860/) to access the Web UI.
 
 That's it! You're now running DragGAN in a Docker container.
