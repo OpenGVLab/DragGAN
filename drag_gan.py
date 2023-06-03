@@ -186,7 +186,7 @@ def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points
             loss = 0
             for i in range(n):
                 pi, ti = handle_points[i], target_points[i]
-                di = (ti - pi) / torch.sum((ti - pi)**2)
+                di = (ti - pi) / (ti - pi).norm()
 
                 for qi in neighbor(int(pi[0]), int(pi[1]), r1):
                     # f1 = F[..., int(qi[0]), int(qi[1])]
