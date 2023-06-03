@@ -63,6 +63,17 @@ Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) fo
 
 ## Running Locally
 
+### With Docker 
+
+```bash
+git clone https://github.com/Zeqiang-Lai/DragGAN.git
+cd DragGAN
+docker build -t dragcan .
+docker run -t -p 7860:7860 --gpus all dragcan
+```
+
+Web UI will be available at http://localhost:7860/
+
 ### With PyPI
 
 📑 [Step by Step Tutorial](https://zeqiang-lai.github.io/blog/en/posts/drag_gan/) | [中文部署教程](https://zeqiang-lai.github.io/blog/posts/ai/drag_gan/)
