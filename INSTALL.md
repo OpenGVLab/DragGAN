@@ -1,9 +1,9 @@
 # Installation
 
 - [System Requirements](#system-requirements)
-- [With PyPI](#with-pypi)
-- [Clone and Install](#clone-and-install)
-- [With Docker](#with-docker)
+- [Install with PyPI](#install-with-pypi)
+- [Install Manually](#install-manually)
+- [Install with Docker](#install-with-docker)
 
 ## System requirements
 
@@ -11,7 +11,7 @@
 - When using with GPU, 8 GB memory is required for 1024 models. 6 GB is recommended for 512 models.
 
 
-## With PyPI
+## Install with PyPI
 
 📑 [Step by Step Tutorial](https://zeqiang-lai.github.io/blog/en/posts/drag_gan/) | [中文部署教程](https://zeqiang-lai.github.io/blog/posts/ai/drag_gan/)
 
@@ -45,7 +45,7 @@ python -m draggan.web --device mps
 python -m draggan.web --device cpu
 ```
 
-## Clone and Install 
+## Install Manually
 
 Ensure you have a GPU and CUDA installed. We use Python 3.7 for testing, other versions (>= 3.7) of Python should work too, but not tested. We recommend to use [Conda](https://conda.io/projects/conda/en/stable/user-guide/install/download.html) to prepare all the requirements.
 
@@ -72,7 +72,7 @@ python gradio_app.py --device cpu
 
 > If you have any issue for downloading the checkpoint, you could manually download it from [here](https://huggingface.co/aaronb/StyleGAN2/tree/main) and put it into the folder `checkpoints`.
 
-## With Docker
+## Install with Docker
 
 Follow these steps to run DragGAN using Docker:
 
