@@ -41,10 +41,11 @@ Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) fo
 
 :star2: **Changelog**
 
+- [x] Add a docker image, thanks [@egbaydarov](https://github.com/egbaydarov).
 - [ ] PTI GAN inversion https://github.com/Zeqiang-Lai/DragGAN/issues/71#issuecomment-1573461314
-- [x] Tweak performance.
+- [x] Tweak performance, See [v2](https://github.com/Zeqiang-Lai/DragGAN/tree/v2).
 - [x] Improving installation experience, DragGAN is now on [PyPI](https://pypi.org/project/draggan).
-- [ ] Automatically determining the number of iterations.
+- [x] Automatically determining the number of iterations, See [v2](https://github.com/Zeqiang-Lai/DragGAN/tree/v2).
 - [ ] Allow to save video without point annotations, custom image size.
 - [x] Support StyleGAN2-ada.
 - [x] Integrate into [InternGPT](https://github.com/OpenGVLab/InternGPT)
@@ -82,7 +83,7 @@ Please refer to [INSTALL.md](INSTALL.md).
 Welcome to discuss with us and continuously improve the user experience of DragGAN.
 Reach us with this WeChat QR Code.
 
-<p align="left"><img width="300" alt="image" src="https://github.com/OpenGVLab/InternGPT/assets/13723743/e69e6a4b-8dd4-4ff3-853a-b146fcc880af"></p> 
+<p align="left"><img width="300" alt="image" src="https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/e68d099a-0b64-4ed1-a4fb-ce135e47918a"></p> 
 
 
 
