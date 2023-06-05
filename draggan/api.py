@@ -168,7 +168,7 @@ def drag_gan(g_ema, latent: torch.Tensor, noise, F, handle_points, target_points
         points = []
         for i in range(x - d, x + d):
             for j in range(y - d, y + d):
-                points.append(torch.tensor([i, j]).float().cuda())
+                points.append(torch.tensor([i, j]).float().to(latent.device))
         return points
 
     F0 = F.detach().clone()
