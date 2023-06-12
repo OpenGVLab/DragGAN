@@ -85,10 +85,10 @@ Please refer to [INSTALL.md](INSTALL.md).
 [Official DragGAN](https://github.com/XingangPan/DragGAN) &ensp; [StyleGAN2](https://github.com/NVlabs/stylegan2)  &ensp; [StyleGAN2-pytorch](https://github.com/rosinality/stylegan2-pytorch)  &ensp; [StyleGAN2-Ada](https://github.com/NVlabs/stylegan2-ada-pytorch)
 
 
-Welcome to discuss with us and continuously improve the user experience of DragGAN.
-Reach us with this WeChat QR Code.
+<!-- Welcome to discuss with us and continuously improve the user experience of DragGAN.
+Reach us with this WeChat QR Code. -->
 
-<p align="left"><img width="300" alt="image" src="https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/962435d4-8858-4032-ab76-f8ae1e6b18c9"></p> 
+<!-- <p align="left"><img width="300" alt="image" src="https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/962435d4-8858-4032-ab76-f8ae1e6b18c9"></p>  -->
 
 
 
