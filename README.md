@@ -88,7 +88,7 @@ Please refer to [INSTALL.md](INSTALL.md).
 <!-- Welcome to discuss with us and continuously improve the user experience of DragGAN.
 Reach us with this WeChat QR Code. -->
 
-<p align="left"><img width="300" alt="image" src="https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/8a2b033b-fb7a-47dc-a334-97a692e6e71e"></p> 
+<p align="left"><img width="300" alt="image" src="https://github.com/Zeqiang-Lai/DragGAN/assets/26198430/385304d2-d15f-4019-9199-f603d04568fa"></p> 
 
 
 
