@@ -31,7 +31,8 @@ class DownloadProgressBar(tqdm):
 
 
 def get_path(base_path):
-    BASE_DIR = os.path.join('checkpoints')
+    module_path = os.path.dirname(__file__)
+    BASE_DIR = os.path.join(module_path,'checkpoints')
 
     save_path = os.path.join(BASE_DIR, base_path)
     if not os.path.exists(save_path):
