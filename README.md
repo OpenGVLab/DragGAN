@@ -5,11 +5,11 @@
 :boom:  [`Colab Demo`](https://colab.research.google.com/github/Zeqiang-Lai/DragGAN/blob/master/colab.ipynb) | [`InternGPT Demo`](https://github.com/OpenGVLab/InternGPT) |  [`Local Deployment`](#running-locally) 
 
 🤗  [`Huggingface Demo1`](https://huggingface.co/spaces/fffiloni/DragGAN) | [`Huggingface Demo2`](https://huggingface.co/spaces/wuutiing2/DragGAN_pytorch) 
-
+<!-- 
 ❌ [`OpenXLab Demo1`](https://app-center-159608-7842-ap7840x.1.openxlab.space) |
 [`OpenXLab Demo2`](https://app-center-159608-4865-v1j68a2.1.openxlab.space) |
 [`OpenXLab Demo3`](https://app-center-159608-2913-rzrk7pl.0.openxlab.space)
-
+ -->
 <!-- pip install draggan -i https://pypi.org/simple/ -->
 
 > **Note for Colab, remember to select a GPU via `Runtime/Change runtime type` (`代码执行程序/更改运行时类型`).**
