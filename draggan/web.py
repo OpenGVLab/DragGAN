@@ -8,6 +8,7 @@ import uuid
 
 from .api import drag_gan, stylegan2
 from .stylegan2.inversion import inverse_image
+from . import utils
 
 device = 'cuda'
 
@@ -29,48 +30,18 @@ CKPT_SIZE = {
     'ada/afhqwild.pt': 512,
     'ada/brecahad.pt': 512,
     'ada/metfaces.pt': 512,
+    'human/v2_512.pt': 512,
+    'human/v2_1024.pt': 1024,
+    'self_distill/bicycles_256.pt': 256,
+    'self_distill/dogs_1024.pt': 1024,
+    'self_distill/elephants_512.pt': 512,
+    'self_distill/giraffes_512.pt': 512,
+    'self_distill/horses_256.pt': 256,
+    'self_distill/lions_512.pt': 512,
+    'self_distill/parrots_512.pt': 512,
 }
 
-DEFAULT_CKPT = 'stylegan2-ffhq-config-f.pt'
-
-
-class grImage(gr.components.Image):
-    is_template = True
-
-    def preprocess(self, x):
-        if x is None:
-            return x
-        if self.tool == "sketch" and self.source in ["upload", "webcam"]:
-            decode_image = gr.processing_utils.decode_base64_to_image(x)
-            width, height = decode_image.size
-            mask = np.zeros((height, width, 4), dtype=np.uint8)
-            mask[..., -1] = 255
-            mask = self.postprocess(mask)
-            x = {'image': x, 'mask': mask}
-        return super().preprocess(x)
-
-
-class ImageMask(gr.components.Image):
-    """
-    Sets: source="canvas", tool="sketch"
-    """
-
-    is_template = True
-
-    def __init__(self, **kwargs):
-        super().__init__(source="upload", tool="sketch", interactive=True, **kwargs)
-
-    def preprocess(self, x):
-        if x is None:
-            return x
-        if self.tool == "sketch" and self.source in ["upload", "webcam"] and type(x) != dict:
-            decode_image = gr.processing_utils.decode_base64_to_image(x)
-            width, height = decode_image.size
-            mask = np.zeros((height, width, 4), dtype=np.uint8)
-            mask[..., -1] = 255
-            mask = self.postprocess(mask)
-            x = {'image': x, 'mask': mask}
-        return super().preprocess(x)
+DEFAULT_CKPT = 'self_distill/lions_512.pt'
 
 
 class ModelWrapper:
@@ -87,13 +58,7 @@ def to_image(tensor):
 
 
 def add_points_to_image(image, points, size=5):
-    h, w, = image.shape[:2]
-
-    for x, y in points['target']:
-        image[max(0, x - size):min(x + size, h - 1), max(0, y - size):min(y + size, w), :] = [255, 0, 0]
-    for x, y in points['handle']:
-        image[max(0, x - size):min(x + size, h - 1), max(0, y - size):min(y + size, w), :] = [0, 0, 255]
-
+    image = utils.draw_handle_target_points(image, points['handle'], points['target'], size)
     return image
 
 
@@ -101,13 +66,13 @@ def on_click(image, target_point, points, size, evt: gr.SelectData):
     if target_point:
         points['target'].append([evt.index[1], evt.index[0]])
         image = add_points_to_image(image, points, size=SIZE_TO_CLICK_SIZE[size])
-        return image, str(evt.index), not target_point
+        return image, not target_point
     points['handle'].append([evt.index[1], evt.index[0]])
     image = add_points_to_image(image, points, size=SIZE_TO_CLICK_SIZE[size])
-    return image, str(evt.index), not target_point
+    return image, not target_point
 
 
-def on_drag(model, points, max_iters, state, size, mask):
+def on_drag(model, points, max_iters, state, size, mask, lr_box):
     if len(points['handle']) == 0:
         raise gr.Error('You must select at least one handle point and target point.')
     if len(points['handle']) != len(points['target']):
@@ -117,8 +82,8 @@ def on_drag(model, points, max_iters, state, size, mask):
     noise = state['noise']
     F = state['F']
 
-    handle_points = [torch.tensor(p).float() for p in points['handle']]
-    target_points = [torch.tensor(p).float() for p in points['target']]
+    handle_points = [torch.tensor(p, device=device).float() for p in points['handle']]
+    target_points = [torch.tensor(p, device=device).float() for p in points['target']]
 
     if mask.get('mask') is not None:
         mask = Image.fromarray(mask['mask']).convert('L')
@@ -132,14 +97,14 @@ def on_drag(model, points, max_iters, state, size, mask):
     step = 0
     for sample2, latent, F, handle_points in drag_gan(model.g_ema, latent, noise, F,
                                                       handle_points, target_points, mask,
-                                                      max_iters=max_iters):
+                                                      max_iters=max_iters, lr=lr_box):
         image = to_image(sample2)
 
         state['F'] = F
         state['latent'] = latent
         state['sample'] = sample2
         points['handle'] = [p.cpu().numpy().astype('int') for p in handle_points]
-        add_points_to_image(image, points, size=SIZE_TO_CLICK_SIZE[size])
+        image = add_points_to_image(image, points, size=SIZE_TO_CLICK_SIZE[size])
 
         state['history'].append(image)
         step += 1
@@ -147,7 +112,7 @@ def on_drag(model, points, max_iters, state, size, mask):
 
 
 def on_reset(points, image, state):
-    return {'target': [], 'handle': []}, to_image(state['sample'])
+    return {'target': [], 'handle': []}, to_image(state['sample']), False
 
 
 def on_undo(points, image, state, size):
@@ -159,8 +124,8 @@ def on_undo(points, image, state, size):
         points['handle'] = points['handle'][:-1]
         points['target'] = points['target'][:-1]
 
-    add_points_to_image(image, points, size=SIZE_TO_CLICK_SIZE[size])
-    return points, image
+    image = add_points_to_image(image, points, size=SIZE_TO_CLICK_SIZE[size])
+    return points, image, False
 
 
 def on_change_model(selected, model):
@@ -234,6 +199,11 @@ def on_mask_change(mask):
     return mask['image']
 
 
+def on_select_mask_tab(state):
+    img = to_image(state['sample'])
+    return img
+
+
 def main():
     torch.cuda.manual_seed(25)
 
@@ -285,6 +255,7 @@ def main():
         })
         points = gr.State({'target': [], 'handle': []})
         size = gr.State(CKPT_SIZE[DEFAULT_CKPT])
+        target_point = gr.State(False)
 
         with gr.Row():
             with gr.Column(scale=0.3):
@@ -295,10 +266,8 @@ def main():
                     new_btn = gr.Button('New Image')
                 with gr.Accordion('Drag'):
                     with gr.Row():
-                        with gr.Column(min_width=100):
-                            text = gr.Textbox(label='Selected Point', interactive=False)
-                        with gr.Column(min_width=100):
-                            target_point = gr.Checkbox(label='Target Point', interactive=False)
+                        lr_box = gr.Number(value=2e-3, label='Learning Rate')
+
                     with gr.Row():
                         with gr.Column(min_width=100):
                             reset_btn = gr.Button('Reset All')
@@ -314,23 +283,25 @@ def main():
 
             with gr.Column():
                 with gr.Tabs():
-                    with gr.Tab('Draw a Mask', id='mask'):
-                        mask = ImageMask(value=to_image(sample), label='Mask').style(height=768, width=768)
+                    img = to_image(sample)
                     with gr.Tab('Setup Handle Points', id='input'):
-                        image = grImage(to_image(sample)).style(height=768, width=768)
+                        image = gr.Image(img).style(height=512, width=512)
+                    with gr.Tab('Draw a Mask', id='mask') as masktab:
+                        mask = gr.ImageMask(img, label='Mask').style(height=512, width=512)
 
-        image.select(on_click, [image, target_point, points, size], [image, text, target_point])
+        image.select(on_click, [image, target_point, points, size], [image, target_point])
         image.upload(on_image_change, [model, size, image], [image, mask, state, points, target_point])
         mask.upload(on_mask_change, [mask], [image])
-        btn.click(on_drag, inputs=[model, points, max_iters, state, size, mask], outputs=[image, state, progress]).then(
+        btn.click(on_drag, inputs=[model, points, max_iters, state, size, mask, lr_box], outputs=[image, state, progress]).then(
             on_show_save, outputs=save_panel).then(
             on_save_files, inputs=[image, state], outputs=[files]
         )
-        reset_btn.click(on_reset, inputs=[points, image, state], outputs=[points, image])
-        undo_btn.click(on_undo, inputs=[points, image, state, size], outputs=[points, image])
+        reset_btn.click(on_reset, inputs=[points, image, state], outputs=[points, image, target_point])
+        undo_btn.click(on_undo, inputs=[points, image, state, size], outputs=[points, image, target_point])
         model_dropdown.change(on_change_model, inputs=[model_dropdown, model], outputs=[model, state, image, mask, size])
         new_btn.click(on_new_image, inputs=[model], outputs=[image, mask, state, points, target_point])
         max_iters.change(on_max_iter_change, inputs=max_iters, outputs=progress)
+        masktab.select(lambda: gr.update(value=None), outputs=[mask]).then(on_select_mask_tab, inputs=[state], outputs=[mask])
     return demo
 
 

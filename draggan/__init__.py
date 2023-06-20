@@ -1,3 +1,3 @@
-from .api import BASE_DIR
+from .utils import BASE_DIR
 
 home = BASE_DIR
