@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='draggan',
     packages=['draggan'],
-    version='1.1.0b2',
+    version='1.1.0',
     package_data={
         'draggan': ['stylegan2/op/fused_bias_act.cpp', 'stylegan2/op/upfirdn2d.cpp',
                     'stylegan2/op/fused_bias_act_kernel.cu', 'stylegan2/op/upfirdn2d_kernel.cu'], 

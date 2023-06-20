@@ -112,7 +112,8 @@ def drag_gan(
     r1=3,
     r2=12,
     lam=20,
-    d=2
+    d=2,
+    lr=2e-3,
 ):
     handle_points0 = copy.deepcopy(handle_points)
     handle_points = torch.stack(handle_points)
@@ -124,7 +125,7 @@ def drag_gan(
 
     latent_trainable = latent[:, :6, :].detach().clone().requires_grad_(True)
     latent_untrainable = latent[:, 6:, :].detach().clone().requires_grad_(False)
-    optimizer = torch.optim.Adam([latent_trainable], lr=2e-3)
+    optimizer = torch.optim.Adam([latent_trainable], lr=lr)
     for _ in range(max_iters):
         if torch.allclose(handle_points, target_points, atol=d):
             break
@@ -143,6 +144,7 @@ def drag_gan(
         optimizer.step()
 
         with torch.no_grad():
+            latent = torch.cat([latent_trainable, latent_untrainable], dim=1)
             sample2, F2 = g_ema.generate(latent, noise)
             handle_points = point_tracking(F2, F0, handle_points, handle_points0, r2, device)
 

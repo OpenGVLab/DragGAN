@@ -72,7 +72,7 @@ def on_click(image, target_point, points, size, evt: gr.SelectData):
     return image, not target_point
 
 
-def on_drag(model, points, max_iters, state, size, mask):
+def on_drag(model, points, max_iters, state, size, mask, lr_box):
     if len(points['handle']) == 0:
         raise gr.Error('You must select at least one handle point and target point.')
     if len(points['handle']) != len(points['target']):
@@ -97,7 +97,7 @@ def on_drag(model, points, max_iters, state, size, mask):
     step = 0
     for sample2, latent, F, handle_points in drag_gan(model.g_ema, latent, noise, F,
                                                       handle_points, target_points, mask,
-                                                      max_iters=max_iters):
+                                                      max_iters=max_iters, lr=lr_box):
         image = to_image(sample2)
 
         state['F'] = F
@@ -265,6 +265,8 @@ def main():
                     max_iters = gr.Slider(1, 500, 20, step=1, label='Max Iterations')
                     new_btn = gr.Button('New Image')
                 with gr.Accordion('Drag'):
+                    with gr.Row():
+                        lr_box = gr.Number(value=2e-3, label='Learning Rate')
 
                     with gr.Row():
                         with gr.Column(min_width=100):
@@ -290,7 +292,7 @@ def main():
         image.select(on_click, [image, target_point, points, size], [image, target_point])
         image.upload(on_image_change, [model, size, image], [image, mask, state, points, target_point])
         mask.upload(on_mask_change, [mask], [image])
-        btn.click(on_drag, inputs=[model, points, max_iters, state, size, mask], outputs=[image, state, progress]).then(
+        btn.click(on_drag, inputs=[model, points, max_iters, state, size, mask, lr_box], outputs=[image, state, progress]).then(
             on_show_save, outputs=save_panel).then(
             on_save_files, inputs=[image, state], outputs=[files]
         )
