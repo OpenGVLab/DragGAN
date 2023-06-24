@@ -18,7 +18,7 @@ class CustomGenerator(Generator):
         truncation_latent=None,
         input_is_latent=False,
         noise=None,
-        randomize_noise=True,
+        randomize_noise=False,
     ):
         if not input_is_latent:
             styles = [self.style(s) for s in styles]
@@ -138,7 +138,8 @@ def drag_gan(
         loss = motion_supervison(handle_points, target_points, F2, r1, device)
 
         if mask is not None:
-            loss += ((F2 - F0) * (1 - mask)).abs().mean() * lam
+            if mask.shape[2:] == F2.shape[2:]:
+                loss += ((F2 - F0) * (1 - mask)).abs().mean() * lam
 
         loss.backward()
         optimizer.step()
