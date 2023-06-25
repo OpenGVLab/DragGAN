@@ -6,9 +6,9 @@ import imageio
 from PIL import Image
 import uuid
 
-from draggan.api import drag_gan, stylegan2
-from draggan.stylegan2.inversion import inverse_image
-from draggan import utils
+from .api import drag_gan, stylegan2
+from .stylegan2.inversion import inverse_image
+from . import utils
 
 device = 'cuda'
 
@@ -72,7 +72,7 @@ def on_click(image, target_point, points, size, evt: gr.SelectData):
     return image, not target_point
 
 
-def on_drag(model, points, max_iters, state, size, mask):
+def on_drag(model, points, max_iters, state, size, mask, lr_box):
     if len(points['handle']) == 0:
         raise gr.Error('You must select at least one handle point and target point.')
     if len(points['handle']) != len(points['target']):
@@ -97,7 +97,7 @@ def on_drag(model, points, max_iters, state, size, mask):
     step = 0
     for sample2, latent, F, handle_points in drag_gan(model.g_ema, latent, noise, F,
                                                       handle_points, target_points, mask,
-                                                      max_iters=max_iters):
+                                                      max_iters=max_iters, lr=lr_box):
         image = to_image(sample2)
 
         state['F'] = F
@@ -217,33 +217,33 @@ def main():
         gr.Markdown(
             """
             # DragGAN
-
+            
             Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
-
+            
             [Our Implementation](https://github.com/Zeqiang-Lai/DragGAN) | [Official Implementation](https://github.com/XingangPan/DragGAN) (Not released yet)
 
             ## Tutorial
-
+            
             1. (Optional) Draw a mask indicate the movable region.
             2. Setup a least one pair of handle point and target point.
-            3. Click "Drag it".
-
+            3. Click "Drag it". 
+            
             ## Hints
-
+            
             - Handle points (Blue): the point you want to drag.
             - Target points (Red): the destination you want to drag towards to.
-
+            
             ## Primary Support of Custom Image.
-
+            
             - We now support dragging user uploaded image by GAN inversion.
-            - **Please upload your image at `Setup Handle Points` panel.** Upload it from `Draw a Mask` would cause errors for now.
-            - Due to the limitation of GAN inversion,
+            - **Please upload your image at `Setup Handle Points` pannel.** Upload it from `Draw a Mask` would cause errors for now.
+            - Due to the limitation of GAN inversion, 
                 - You might wait roughly 1 minute to see the GAN version of the uploaded image.
                 - The shown image might be slightly difference from the uploaded one.
                 - It could also fail to invert the uploaded image and generate very poor results.
-                - Ideally, you should choose the closest model of the uploaded image. For example, choose `stylegan2-ffhq-config-f.pt` for human face. `stylegan2-cat-config-f.pt` for cat.
-
-            > Please fire an issue if you have encountered any problem. Also don't forget to give a star to the [Official Repo](https://github.com/XingangPan/DragGAN), [our project](https://github.com/Zeqiang-Lai/DragGAN) could not exist without it.
+                - Idealy, you should choose the closest model of the uploaded image. For example, choose `stylegan2-ffhq-config-f.pt` for human face. `stylegan2-cat-config-f.pt` for cat.
+                
+            > Please fire an issue if you have encounted any problem. Also don't forgot to give a star to the [Official Repo](https://github.com/XingangPan/DragGAN), [our project](https://github.com/Zeqiang-Lai/DragGAN) could not exist without it.
             """,
         )
         state = gr.State({
@@ -265,6 +265,8 @@ def main():
                     max_iters = gr.Slider(1, 500, 20, step=1, label='Max Iterations')
                     new_btn = gr.Button('New Image')
                 with gr.Accordion('Drag'):
+                    with gr.Row():
+                        lr_box = gr.Number(value=2e-3, label='Learning Rate')
 
                     with gr.Row():
                         with gr.Column(min_width=100):
@@ -290,7 +292,7 @@ def main():
         image.select(on_click, [image, target_point, points, size], [image, target_point])
         image.upload(on_image_change, [model, size, image], [image, mask, state, points, target_point])
         mask.upload(on_mask_change, [mask], [image])
-        btn.click(on_drag, inputs=[model, points, max_iters, state, size, mask], outputs=[image, state, progress]).then(
+        btn.click(on_drag, inputs=[model, points, max_iters, state, size, mask, lr_box], outputs=[image, state, progress]).then(
             on_show_save, outputs=save_panel).then(
             on_save_files, inputs=[image, state], outputs=[files]
         )
@@ -308,7 +310,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--share', action='store_true')
-    parser.add_argument('-p', '--port', type=int, default=None)
+    parser.add_argument('-p', '--port', default=None)
     parser.add_argument('--ip', default=None)
     args = parser.parse_args()
     device = args.device

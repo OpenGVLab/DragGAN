@@ -38,6 +38,8 @@ Check out the original [paper](https://vcai.mpi-inf.mpg.de/projects/DragGAN/) fo
 
 :star2: **What's New**
 
+- [2023/6/25] Relase version 1.1.1, it includes a major bug fix and speed improvement.
+- [2023/6/25] [Official Code](https://github.com/XingangPan/DragGAN) is released, check it out.
 - [2023/5/29] A new version is in beta, install via `pip install draggan==1.1.0b2`, includes speed improvement and more models.
 - [2023/5/25] DragGAN is on PyPI, simple install via `pip install draggan`. Also addressed the common CUDA problems https://github.com/Zeqiang-Lai/DragGAN/issues/38  https://github.com/Zeqiang-Lai/DragGAN/issues/12
 - [2023/5/25] We now support StyleGAN2-ada with much higher quality and more types of images. Try it by selecting models started with "ada".

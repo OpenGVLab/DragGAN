@@ -16,7 +16,7 @@ from tqdm import tqdm
 
 BASE_DIR = os.environ.get(
     'DRAGGAN_HOME',
-    os.path.join(os.path.expanduser('~'), 'draggan', 'checkpoints-pkl')
+    os.path.join(os.path.expanduser('~'), 'draggan', 'checkpoints')
 )
 
 

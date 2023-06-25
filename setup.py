@@ -3,10 +3,20 @@ from setuptools import setup, find_packages
 setup(
     name='draggan',
     packages=['draggan'],
-    version='1.1.0',
+    version='1.1.1',
     package_data={
-        'draggan': ['stylegan2/op/fused_bias_act.cpp', 'stylegan2/op/upfirdn2d.cpp',
-                    'stylegan2/op/fused_bias_act_kernel.cu', 'stylegan2/op/upfirdn2d_kernel.cu'], 
+        'draggan': ['deprecated/stylegan2/op/fused_bias_act.cpp', 
+                    'deprecated/stylegan2/op/upfirdn2d.cpp',
+                    'deprecated/stylegan2/op/fused_bias_act_kernel.cu',
+                    'deprecated/stylegan2/op/upfirdn2d_kernel.cu',
+                    
+                    'stylegan2/torch_utils/op/bias_act.cpp', 
+                    'stylegan2/torch_utils/op/upfirdn2d.cpp',
+                    'stylegan2/torch_utils/op/bias_act.cu',
+                    'stylegan2/torch_utils/op/upfirdn2d.cu',
+                    'stylegan2/torch_utils/op/bias_act.h', 
+                    'stylegan2/torch_utils/op/upfirdn2d.h', 
+                    ], 
     },
     include_package_data=True,
     install_requires=[
