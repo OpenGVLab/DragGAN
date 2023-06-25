@@ -36,7 +36,7 @@ def download_url(url, output_path):
 def get_path(base_path):
     save_path = os.path.join(BASE_DIR, base_path)
     if not os.path.exists(save_path):
-        url = f"https://huggingface.co/aaronb/StyleGAN2/resolve/main/{base_path}"
+        url = f"https://huggingface.co/aaronb/StyleGAN2-pkl/resolve/main/{base_path}"
         print(f'{base_path} not found')
         print('Try to download from huggingface: ', url)
         os.makedirs(os.path.dirname(save_path), exist_ok=True)

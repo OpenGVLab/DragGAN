@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='draggan',
     packages=find_packages(),
-    version='1.1.4',
+    version='1.1.5',
     package_data={
         'draggan': ['deprecated/stylegan2/op/fused_bias_act.cpp', 
                     'deprecated/stylegan2/op/upfirdn2d.cpp',
