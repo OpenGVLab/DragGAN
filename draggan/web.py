@@ -20,25 +20,25 @@ SIZE_TO_CLICK_SIZE = {
 }
 
 CKPT_SIZE = {
-    'stylegan2-ffhq-config-f.pkl': 1024,
-    'stylegan2-cat-config-f.pkl': 256,
-    'stylegan2-church-config-f.pkl': 256,
-    'stylegan2-horse-config-f.pkl': 256,
+    'stylegan2/stylegan2-ffhq-config-f.pkl': 1024,
+    'stylegan2/stylegan2-cat-config-f.pkl': 256,
+    'stylegan2/stylegan2-church-config-f.pkl': 256,
+    'stylegan2/stylegan2-horse-config-f.pkl': 256,
     'ada/ffhq.pkl': 1024,
     'ada/afhqcat.pkl': 512,
     'ada/afhqdog.pkl': 512,
     'ada/afhqwild.pkl': 512,
     'ada/brecahad.pkl': 512,
     'ada/metfaces.pkl': 512,
-    'human/v2_512.pkl': 512,
-    'human/v2_1024.pkl': 1024,
-    'self_distill/bicycles_256.pkl': 256,
-    'self_distill/dogs_1024.pkl': 1024,
-    'self_distill/elephants_512.pkl': 512,
-    'self_distill/giraffes_512.pkl': 512,
-    'self_distill/horses_256.pkl': 256,
-    'self_distill/lions_512.pkl': 512,
-    'self_distill/parrots_512.pkl': 512,
+    'human/stylegan_human_v2_512.pkl': 512,
+    'human/stylegan_human_v2_1024.pkl': 1024,
+    'self_distill/bicycles_256_pytorch.pkl': 256,
+    'self_distill/dogs_1024_pytorch.pkl': 1024,
+    'self_distill/elephants_512_pytorch.pkl': 512,
+    'self_distill/giraffes_512_pytorch.pkl': 512,
+    'self_distill/horses_256_pytorch.pkl': 256,
+    'self_distill/lions_512_pytorch.pkl': 512,
+    'self_distill/parrots_512_pytorch.pkl': 512,
 }
 
 DEFAULT_CKPT = 'ada/afhqcat.pkl'
