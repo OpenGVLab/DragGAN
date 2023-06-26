@@ -19,7 +19,7 @@ setup(
     },
     include_package_data=True,
     install_requires=[
-        'gradio==3.28.1',
+        'gradio==3.34.0',
         'tqdm',
         'torch>=1.8',
         'torchvision',
