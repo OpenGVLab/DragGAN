@@ -13,6 +13,9 @@
 <!-- pip install draggan -i https://pypi.org/simple/ -->
 
 > **Note for Colab, remember to select a GPU via `Runtime/Change runtime type` (`代码执行程序/更改运行时类型`).**
+> 
+> If you want to upload custom image, please install 1.1.0 via `pip install draggan==1.1.0`.
+
 
 Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
 
