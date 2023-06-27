@@ -215,7 +215,7 @@ def main():
 
             ## Tutorial
             
-            1. (Opklional) Draw a mask indicate the movable region.
+            1. (Optional) Draw a mask indicate the movable region.
             2. Setup a least one pair of handle point and target point.
             3. Click "Drag it". 
             
