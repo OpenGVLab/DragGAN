@@ -2,15 +2,7 @@
 [![PyPI](https://img.shields.io/pypi/v/draggan)](https://pypi.org/project/draggan/) 
 [![support](https://img.shields.io/badge/Support-macOS%20%7C%20Windows%20%7C%20Linux-blue)](#running-locally)
 
-:boom:  [`Colab Demo`](https://colab.research.google.com/github/Zeqiang-Lai/DragGAN/blob/master/colab.ipynb) | [`InternGPT Demo`](https://github.com/OpenGVLab/InternGPT) |  [`Local Deployment`](#running-locally) 
-
-🤗  [`Huggingface Demo1`](https://huggingface.co/spaces/fffiloni/DragGAN) | [`Huggingface Demo2`](https://huggingface.co/spaces/wuutiing2/DragGAN_pytorch) 
-<!-- 
-❌ [`OpenXLab Demo1`](https://app-center-159608-7842-ap7840x.1.openxlab.space) |
-[`OpenXLab Demo2`](https://app-center-159608-4865-v1j68a2.1.openxlab.space) |
-[`OpenXLab Demo3`](https://app-center-159608-2913-rzrk7pl.0.openxlab.space)
- -->
-<!-- pip install draggan -i https://pypi.org/simple/ -->
+:boom:  [`Colab Demo`](https://colab.research.google.com/github/Zeqiang-Lai/DragGAN/blob/master/colab.ipynb)  [`Awesome-DragGAN`](https://github.com/OpenGVLab/Awesome-DragGAN) [`InternGPT Demo`](https://github.com/OpenGVLab/InternGPT)  [`Local Deployment`](#running-locally)  
 
 > **Note for Colab, remember to select a GPU via `Runtime/Change runtime type` (`代码执行程序/更改运行时类型`).**
 > 
