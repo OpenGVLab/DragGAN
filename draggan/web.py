@@ -20,8 +20,9 @@ SIZE_TO_CLICK_SIZE = {
 }
 
 CKPT_SIZE = {
-    'stylegan2/stylegan2-ffhq-config-f.pkl': 1024,
+    'stylegan2/stylegan2-car-config-f.pkl': 256,
     'stylegan2/stylegan2-cat-config-f.pkl': 256,
+    'stylegan2/stylegan2-ffhq-config-f.pkl': 1024,
     'stylegan2/stylegan2-church-config-f.pkl': 256,
     'stylegan2/stylegan2-horse-config-f.pkl': 256,
     'ada/ffhq.pkl': 1024,
@@ -211,7 +212,7 @@ def main():
             
             Unofficial implementation of [Drag Your GAN: Interactive Point-based Manipulation on the Generative Image Manifold](https://vcai.mpi-inf.mpg.de/projects/DragGAN/)
             
-            [Our Implementation](https://github.com/Zeqiang-Lai/DragGAN) | [Official Implementation](https://github.com/XingangPan/DragGAN) (Not released yet)
+            [Our Implementation](https://github.com/Zeqiang-Lai/DragGAN) | [Official Implementation](https://github.com/XingangPan/DragGAN) 
 
             ## Tutorial
             
