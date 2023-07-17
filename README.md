@@ -81,11 +81,11 @@ Please refer to [INSTALL.md](INSTALL.md).
 
 [Official DragGAN](https://github.com/XingangPan/DragGAN) &ensp; [DragGAN-Streamlit](https://github.com/skimai/DragGAN) &ensp; [StyleGAN2](https://github.com/NVlabs/stylegan2)  &ensp; [StyleGAN2-pytorch](https://github.com/rosinality/stylegan2-pytorch)  &ensp; [StyleGAN2-Ada](https://github.com/NVlabs/stylegan2-ada-pytorch)   &ensp;  [StyleGAN-Human](https://github.com/stylegan-human/StyleGAN-Human) &ensp;  [Self-Distilled-StyleGAN](https://github.com/self-distilled-stylegan/self-distilled-internet-photos)
 
-<!-- Welcome to discuss with us and continuously improve the user experience of DragGAN.
-Reach us with this WeChat QR Code. -->
+ Welcome to discuss with us and continuously improve the user experience of DragGAN.
+Reach us with this WeChat QR Code. 
 
 
-<p align="left"><img width="300" alt="image" src="https://github.com/OpenGVLab/DragGAN/assets/26198430/885cb87a-4acc-490d-8a45-96f3ab870611"></p> 
+<p align="left"><img width="300" alt="image" src="https://github.com/OpenGVLab/DragGAN/assets/26198430/885cb87a-4acc-490d-8a45-96f3ab870611"><img width="300" alt="image" src="https://github.com/OpenGVLab/DragGAN/assets/26198430/e3f0807f-956a-474e-8fd2-1f7c22d73997"></p> 
 
 
 
